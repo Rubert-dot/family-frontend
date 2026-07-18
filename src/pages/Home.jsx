@@ -10,7 +10,6 @@ export default function Home() {
   const [showPopup, setShowPopup] = useState(false);
   const [time, setTime] = useState(new Date());
 
- 
   const familyQuotes = [
     "Unity is our family's strength, love is our foundation! 🏡",
     "Living with adjustment is the ultimate beauty of a joint family! ✨",
@@ -66,7 +65,7 @@ export default function Home() {
       fontFamily: '"Poppins", "Segoe UI", sans-serif',
       position: 'relative',
       width: '100%',
-      paddingBottom: '100px', 
+      paddingBottom: '120px', 
       boxSizing: 'border-box',
       backgroundColor: '#f8fafc', 
       overflowX: 'hidden'
@@ -122,30 +121,61 @@ export default function Home() {
           background: linear-gradient(135deg, #2c426f 0%, #1a2b4c 100%);
         }
 
-        @keyframes float {
-          0% { transform: translateY(0px); }
-          50% { transform: translateY(-10px); }
-          100% { transform: translateY(0px); }
-        }
-        .floating-icon {
-          animation: float 3s ease-in-out infinite;
+        
+        @media (max-width: 768px) {
+          .hero-title {
+            font-size: 38px !important;
+            margin-right: 0 !important;
+          }
+          .hero-card {
+            padding: 30px 15px !important;
+            width: 95% !important;
+          }
+          .info-section {
+            padding: 35px 20px !important;
+            margin: 40px 15px 20px 15px !important;
+          }
+          .info-title {
+            font-size: 26px !important;
+          }
+          .info-text {
+            font-size: 15px !important;
+            line-height: 1.7 !important;
+          }
+          .quote-section {
+            padding: 30px 20px !important;
+            margin: 20px 15px 40px 15px !important;
+          }
+          .quote-text {
+            font-size: 18px !important;
+          }
+          .footer-content {
+            flex-direction: column !important;
+            text-align: center !important;
+            gap: 10px !important;
+          }
+          .upcoming-popup {
+            left: 15px !important;
+            right: 15px !important;
+            max-width: none !important;
+            bottom: 140px !important;
+          }
         }
       `}</style>
 
-  
       <div style={{
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
         width: '100%',
-        height: '95vh', 
+        height: '90vh', 
         position: 'relative',
         backgroundImage: `linear-gradient(rgba(15, 23, 42, 0.65), rgba(15, 23, 42, 0.8)), url(${myFamilyBg})`,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat',
-        backgroundAttachment: 'fixed',
-        padding: '20px',
+        backgroundAttachment: 'scroll',
+        padding: '15px',
         boxSizing: 'border-box'
       }}>
         
@@ -159,16 +189,14 @@ export default function Home() {
           borderRadius: '32px',
           boxShadow: '0 30px 60px rgba(0,0,0,0.4)',
           textAlign: 'center',
-          maxWidth: '90%',
-          width: '500px',
+          width: '100%',
+          maxWidth: '500px',
           boxSizing: 'border-box',
         }}>
   
-          
-          {/* Main Title kept in Tamil */}
-          <h1 style={{ 
+          <h1 className="hero-title" style={{ 
             fontSize: '56px', 
-            margin: '20px 20px 20px 0', 
+            margin: '0 0 20px 0', 
             letterSpacing: '1px',
             fontWeight: '700',
             background: 'linear-gradient(to right, #ffffff, #e2e8f0)',
@@ -185,17 +213,18 @@ export default function Home() {
             alignItems: 'center',
             justifyContent: 'center',
             backgroundColor: 'rgba(0, 0, 0, 0.25)',
-            padding: '15px 25px',
+            padding: '15px 20px',
             borderRadius: '16px',
             marginBottom: '30px',
             border: '1px solid rgba(255,255,255,0.05)'
           }}>
+           
             <p className={`quote-fade ${fade ? 'quote-visible' : ''}`} style={{
               margin: 0,
-              fontSize: '17px',
+              fontSize: '16px',
               color: '#a8ebd0', 
               fontWeight: '500',
-              lineHeight: '1.6',
+              lineHeight: '1.6', 
               fontStyle: 'italic'
             }}>
               {familyQuotes[quoteIndex]}
@@ -207,27 +236,11 @@ export default function Home() {
             <span style={{ fontSize: '18px' }}>→</span>
           </Link>
         </div>
-        
-        <div style={{
-          position: 'absolute',
-          bottom: '25px',
-          fontSize: '14px',
-          color: '#e2e8f0',
-          fontWeight: '600',
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          gap: '8px',
-          cursor: 'pointer',
-          textShadow: '0 2px 8px rgba(0,0,0,0.6)'
-        }} onClick={() => window.scrollTo({ top: window.innerHeight, behavior: 'smooth' })}>
-          <span></span>
-        </div>
       </div>
 
-  
-      <div style={{
-        width: '100%',
+      {/* 🌳 Description Section */}
+      <div className="info-section" style={{
+        width: 'calc(100% - 40px)',
         maxWidth: '900px',
         backgroundColor: '#ffffff',
         borderRadius: '24px',
@@ -238,30 +251,29 @@ export default function Home() {
         textAlign: 'center',
         border: '1px solid #edf2f7'
       }}>
-        <h2 style={{ color: '#1a2b4c', fontSize: '34px', margin: '0 0 20px 0', fontWeight: '700', letterSpacing: '-0.5px' }}>
+        <h2 className="info-title" style={{ color: '#1a2b4c', fontSize: '34px', margin: '0 0 20px 0', fontWeight: '700', letterSpacing: '-0.5px' }}>
           🌳 நம் பாரம்பரியம்
         </h2>
         <div style={{ width: '60px', height: '4px', backgroundColor: '#bc9226', margin: '0 auto 25px auto', borderRadius: '2px' }}></div>
         
-        <p style={{ color: '#4a5568', fontSize: '17px', lineHeight: '1.9', margin: 0, fontWeight: '400' }}>
+        <p className="info-text" style={{ color: '#4a5568', fontSize: '17px', lineHeight: '1.9', margin: 0, fontWeight: '400' }}>
           Endless love across generations and the immense affection we share with each other form the very foundation of our family. 
           Standing shoulder to shoulder through joy and sorrow, following the path shown by our ancestors with unity is our pride. 
           This platform is a loving bridge connecting all our family members!
         </p>
       </div>
 
-      
+  
       <div style={{
         width: '100%',
-        maxWidth: '900px',
+        maxWidth: '940px',
         display: 'grid',
-        gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
+        gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
         gap: '25px',
-        margin: '20px',
         padding: '0 20px',
         boxSizing: 'border-box'
       }}>
-        {/* Box 1 */}
+      
         <div className="feature-box" style={{
           backgroundColor: '#ffffff',
           padding: '35px 30px',
@@ -278,7 +290,7 @@ export default function Home() {
           </p>
         </div>
 
-        {/* Box 2 */}
+      
         <div className="feature-box" style={{
           backgroundColor: '#ffffff',
           padding: '35px 30px',
@@ -313,9 +325,9 @@ export default function Home() {
         </div>
       </div>
 
-      
-      <div style={{
-        width: '100%',
+      {/* 🌟 Thought of the Day */}
+      <div className="quote-section" style={{
+        width: 'calc(100% - 40px)',
         maxWidth: '900px',
         background: 'linear-gradient(135deg, #1a2b4c 0%, #111d33 100%)',
         borderRadius: '24px',
@@ -330,7 +342,7 @@ export default function Home() {
         <h4 style={{ color: '#bc9226', margin: '0 0 15px 0', fontSize: '16px', letterSpacing: '2px', fontWeight: '700', textTransform: 'uppercase' }}>
           🌟 இன்றைய சிந்தனை
         </h4>
-        <p style={{ fontSize: '22px', fontWeight: '600', fontStyle: 'italic', margin: 0, lineHeight: '1.7', color: '#f7fafc' }}>
+        <p className="quote-text" style={{ fontSize: '22px', fontWeight: '600', fontStyle: 'italic', margin: 0, lineHeight: '1.7', color: '#f7fafc' }}>
           "Living together as one is the ultimate way of life, and staying united by love is eternal bliss!"
         </p>
       </div>
@@ -348,7 +360,7 @@ export default function Home() {
         padding: '16px 24px',
         boxSizing: 'border-box'
       }}>
-        <div style={{
+        <div className="footer-content" style={{
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'center',
@@ -362,8 +374,8 @@ export default function Home() {
             <span>"Unity is our family's strength, love is our foundation!"</span>
           </div>
 
-          <div style={{ fontSize: '13px', color: '#718096', textAlign: 'center' }}>
-            © {new Date().getFullYear()} <strong>All Family Members</strong> | <span style={{ color: '#1a2b4c', fontWeight: '700' }}></span>
+          <div style={{ fontSize: '13px', color: '#718096' }}>
+            © {new Date().getFullYear()} <strong>All Family Members</strong>
           </div>
 
           <div style={{ 
@@ -374,7 +386,7 @@ export default function Home() {
             borderRadius: '50px',
             fontWeight: '600',
             boxShadow: '0 4px 10px rgba(188, 146, 38, 0.2)',
-            display: 'flex',
+            display: 'inline-flex',
             gap: '8px',
             alignItems: 'center'
           }}>
@@ -386,7 +398,7 @@ export default function Home() {
         </div>
       </footer>
 
-      {/* ⏰ Upcoming events popup */}
+   
       {showPopup && upcomingEvents.length > 0 && (
         <div className="upcoming-popup" style={{ 
           position: 'fixed', 
@@ -401,6 +413,7 @@ export default function Home() {
           zIndex: 1000, 
           maxWidth: '340px',
           textAlign: 'left',
+          boxSizing: 'border-box',
           animation: 'fadeInUp 0.5s ease'
         }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>

@@ -120,7 +120,7 @@ function NavBar() {
         <div className="navbar-links">
           <NavLink to="/" end className={({ isActive }) => isActive ? 'nav-item active' : 'nav-item'} onClick={() => setIsOpen(false)}>Home</NavLink>
           <NavLink to="/family-tree" className={({ isActive }) => isActive ? 'nav-item active' : 'nav-item'} onClick={() => setIsOpen(false)}>Family Tree</NavLink>
-          <NavLink to="/directory" className={({ isActive }) => isActive ? 'nav-item active' : 'nav-item'} onClick={() => setIsOpen(false)}>Directory</NavLink>
+          {/* <NavLink to="/directory" className={({ isActive }) => isActive ? 'nav-item active' : 'nav-item'} onClick={() => setIsOpen(false)}>Directory</NavLink> */}
           <NavLink to="/photos" className={({ isActive }) => isActive ? 'nav-item active' : 'nav-item'} onClick={() => setIsOpen(false)}>Photos</NavLink>
           <NavLink to="/calendar" className={({ isActive }) => isActive ? 'nav-item active' : 'nav-item'} onClick={() => setIsOpen(false)}>Calendar</NavLink>
           <NavLink to="/memories" className={({ isActive }) => isActive ? 'nav-item active' : 'nav-item'} onClick={() => setIsOpen(false)}>Memories</NavLink>

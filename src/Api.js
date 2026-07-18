@@ -1,12 +1,15 @@
 
 import axios from 'axios';
 
-const BACKEND_URL = 'https://family-backend-iwar.onrender.com';
+const BACKEND_URL = 'https://kudumbauravugal-backend.onrender.com';
 const API_BASE = `${BACKEND_URL}/api`;
 const FILE_BASE = `${BACKEND_URL}/uploads`;
 
 
-const api = axios.create({ baseURL: API_BASE });
+const api = axios.create({
+  baseURL: API_BASE,
+});
+
 
 api.interceptors.request.use((config) => {
   const email = localStorage.getItem('familyEmail');
@@ -15,6 +18,7 @@ api.interceptors.request.use((config) => {
   if (pw) config.headers['X-Family-Password'] = pw;
   return config;
 });
+
 
 api.interceptors.response.use(
   (res) => res,
@@ -28,12 +32,13 @@ api.interceptors.response.use(
   }
 );
 
-
+// 📸 போட்டோக்கள் மற்றும் அப்லோடுக்கான URL பங்க்ஷன்
 export const photoUrl = (fileName) => {
   const email = encodeURIComponent(localStorage.getItem('familyEmail') || '');
   const pw = encodeURIComponent(localStorage.getItem('familyPassword') || '');
   return `${FILE_BASE}/${fileName}?email=${email}&password=${pw}`;
 };
+
 
 export const getPhotos = (album) =>
   api.get('/photos', { params: album ? { album } : {} }).then(r => r.data);
@@ -53,6 +58,7 @@ export const uploadPhoto = ({ file, albumName, uploaderName, caption }) => {
 };
 
 export const deletePhoto = (id) => api.delete(`/photos/${id}`);
+
 
 export const getEvents = () => api.get('/events').then(r => r.data);
 export const getUpcomingEvents = () => api.get('/events/upcoming').then(r => r.data);

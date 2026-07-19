@@ -109,7 +109,7 @@ function NavBar() {
       `}</style>
 
       <nav className="navbar">
-        <div className="navbar-brand">🌳 Our Family</div>
+        <div className="navbar-brand"> Kudumba Uravugal</div>
         
         <button className="menu-toggle" onClick={toggleMenu} aria-label="Toggle navigation">
           <span style={{ transform: isOpen ? 'rotate(45deg) translate(6px, 5px)' : 'none' }}></span>

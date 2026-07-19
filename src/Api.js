@@ -1,68 +1,108 @@
 
+
 import axios from 'axios';
 
-const BACKEND_URL = 'https://kudumbauravugal-backend.onrender.com';
-const API_BASE = `${BACKEND_URL}/api`;
-const FILE_BASE = `${BACKEND_URL}/uploads`;
+const API_BASE_URL = 'https://family-backend-iwar.onrender.com/api';
 
 
-const api = axios.create({
-  baseURL: API_BASE,
-});
 
-
-api.interceptors.request.use((config) => {
-  const email = localStorage.getItem('familyEmail');
-  const pw = localStorage.getItem('familyPassword');
-  if (email) config.headers['X-Family-Email'] = email;
-  if (pw) config.headers['X-Family-Password'] = pw;
-  return config;
-});
-
-
-api.interceptors.response.use(
-  (res) => res,
-  (err) => {
-    if (err.response && err.response.status === 401) {
-      localStorage.removeItem('familyEmail');
-      localStorage.removeItem('familyPassword');
-      window.location.reload();
+export const getPhotos = async (albumName = '') => {
+    try {
+        
+        const url = albumName ? `${API_BASE_URL}/photos?album=${albumName}` : `${API_BASE_URL}/photos`;
+        const response = await axios.get(url);
+        return response.data;
+    } catch (error) {
+        console.error("Error fetching photos:", error);
+        throw error;
     }
-    return Promise.reject(err);
-  }
-);
+};
 
-// 📸 போட்டோக்கள் மற்றும் அப்லோடுக்கான URL பங்க்ஷன்
+export const getAlbumNames = async () => {
+    try {
+        const response = await axios.get(`${API_BASE_URL}/photos/albums`);
+        return response.data;
+    } catch (error) {
+        console.error("Error fetching album names:", error);
+        return [];
+    }
+};
+
+
+export const uploadPhoto = async (photoData) => {
+    try {
+        const formData = new FormData();
+        formData.append('file', photoData.file);
+        formData.append('albumName', photoData.albumName);
+        formData.append('uploaderName', photoData.uploaderName);
+        if (photoData.caption) {
+            formData.append('caption', photoData.caption);
+        }
+
+
+        const response = await axios.post(`${API_BASE_URL}/photos`, formData, {
+            headers: { 'Content-Type': 'multipart/form-data' }
+        });
+        return response.data;
+    } catch (error) {
+        console.error("Error uploading photo:", error);
+        throw error;
+    }
+};
+
+export const deletePhoto = async (id) => {
+    try {
+        const response = await axios.delete(`${API_BASE_URL}/photos/${id}`);
+        return response.data;
+    } catch (error) {
+        console.error("Error deleting photo:", error);
+        throw error;
+    }
+};
+
 export const photoUrl = (fileName) => {
-  const email = encodeURIComponent(localStorage.getItem('familyEmail') || '');
-  const pw = encodeURIComponent(localStorage.getItem('familyPassword') || '');
-  return `${FILE_BASE}/${fileName}?email=${email}&password=${pw}`;
+    if (!fileName) return '';
+   return `https://family-backend-iwar.onrender.com/uploads/${fileName}`;
 };
 
 
-export const getPhotos = (album) =>
-  api.get('/photos', { params: album ? { album } : {} }).then(r => r.data);
 
-export const getAlbumNames = () =>
-  api.get('/photos/albums').then(r => r.data);
-
-export const uploadPhoto = ({ file, albumName, uploaderName, caption }) => {
-  const formData = new FormData();
-  formData.append('file', file);
-  formData.append('albumName', albumName);
-  formData.append('uploaderName', uploaderName);
-  if (caption) formData.append('caption', caption);
-  return api.post('/photos', formData, {
-    headers: { 'Content-Type': 'multipart/form-data' }
-  }).then(r => r.data);
+export const getEvents = async () => {
+    try {
+        const response = await axios.get(`${API_BASE_URL}/events`); 
+        return response.data;
+    } catch (error) {
+        console.error("Error fetching all events:", error);
+        throw error;
+    }
 };
 
-export const deletePhoto = (id) => api.delete(`/photos/${id}`);
+export const getUpcomingEvents = async () => {
+    try {
+        const response = await axios.get(`${API_BASE_URL}/events`); 
+        return response.data;
+    } catch (error) {
+        console.error("Error fetching upcoming events:", error);
+        throw error;
+    }
+};
 
+export const createEvent = async (eventData) => {
+    try {
+        const response = await axios.post(`${API_BASE_URL}/events`, eventData);
+        return response.data;
+    } catch (error) {
+        console.error("Error creating new event:", error);
+        throw error;
+    }
+};
 
-export const getEvents = () => api.get('/events').then(r => r.data);
-export const getUpcomingEvents = () => api.get('/events/upcoming').then(r => r.data);
-export const createEvent = (event) => api.post('/events', event).then(r => r.data);
-export const deleteEvent = (id) => api.delete(`/events/${id}`);
-
-export default api;
+export const deleteEvent = async (id) => {
+    try {
+        const response = await axios.delete(`${API_BASE_URL}/events/${id}`);
+        return response.data;
+    } catch (error) {
+        console.error("Error deleting event:", error);
+        throw error;
+    }
+};

@@ -349,18 +349,17 @@ export default function Home() {
         </p>
       </div>
 
-      {/* 👣 Footer */}
       <footer style={{
-        position: 'fixed',
-        bottom: '0',
-        left: '0',
+      
+       
         width: '100%',
         backgroundColor: '#ffffff',
         borderTop: '1px solid #e2e8f0', 
         boxShadow: '0 -10px 30px rgba(0,0,0,0.05)',
         zIndex: 999,
         padding: '16px 24px',
-        boxSizing: 'border-box'
+        boxSizing: 'border-box',
+        marginTop:'auto'
       }}>
         <div className="footer-content" style={{
           display: 'flex',

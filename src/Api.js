@@ -106,3 +106,13 @@ export const deleteEvent = async (id) => {
         throw error;
     }
 };
+// Family Members API Functions
+export const getFamilyMembers = async () => {
+    try {
+        const response = await axios.get(`${API_BASE_URL}/family-members`);
+        return response.data;
+    } catch (error) {
+        console.error("Error fetching family members:", error);
+        throw error;
+    }
+};

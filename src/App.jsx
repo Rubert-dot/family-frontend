@@ -21,10 +21,16 @@ export default function App() {
       <Navbar />
       <Routes>
         <Route path="/" element={<Home />} />
+        
+       
+        <Route path="/memories" element={<Photos mode="gallery" />} />
         <Route path="/photos" element={<Photos mode="upload" />} /> 
+        
+       
+        <Route path="/events" element={<Calendar />} />
         <Route path="/calendar" element={<Calendar />} />
-       <Route path="/family-tree" element={<FamilyTree />} />
-        <Route path="/memories" element={<Photos mode="gallery" />} /> 
+
+        <Route path="/family-tree" element={<FamilyTree />} />
       </Routes>
     </div>
   );

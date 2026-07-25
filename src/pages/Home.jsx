@@ -34,7 +34,7 @@ export default function Home() {
 
     const clockTimer = setInterval(() => setTime(new Date()), 1000);
 
-    // 1. Fetch Events (Important Dates)
+    // Fetch Events
     getUpcomingEvents()
       .then((data) => {
         if (Array.isArray(data)) {
@@ -59,7 +59,7 @@ export default function Home() {
       })
       .catch((err) => console.error("Events fetch failed:", err));
 
-    // 2. Fetch Photos (Sweet Memories)
+    // Fetch Photos
     getPhotos()
       .then((data) => {
         if (Array.isArray(data)) {
@@ -68,7 +68,7 @@ export default function Home() {
       })
       .catch((err) => console.error("Photos fetch failed:", err));
 
-    // 3. Fetch Family Members
+    // Fetch Family Members
     getFamilyMembers()
       .then((data) => {
         if (Array.isArray(data)) {
@@ -228,8 +228,8 @@ export default function Home() {
           <span style={{ fontSize: '13px', color: '#718096' }}>View relationships & profiles</span>
         </div>
 
-        {/* 3. Sweet Memories Card */}
-        <div className="feature-box" onClick={() => navigate('/photos')} style={{ backgroundColor: '#ffffff', padding: '30px 25px', borderRadius: '24px', textAlign: 'center' }}>
+        {/* 3. Sweet Memories Card (Navigates to /memories) */}
+        <div className="feature-box" onClick={() => navigate('/memories')} style={{ backgroundColor: '#ffffff', padding: '30px 25px', borderRadius: '24px', textAlign: 'center' }}>
           <div style={{ width: '60px', height: '60px', backgroundColor: '#fffaf0', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 15px auto' }}>
             <span style={{ fontSize: '28px' }}>📸</span>
           </div>
@@ -240,10 +240,10 @@ export default function Home() {
               <p style={{ color: '#e65100', fontWeight: 'bold', fontSize: '15px', margin: '0 0 8px 0' }}>
                 🖼️ {photos.length} Photo(s) Saved
               </p>
-              <span style={{ fontSize: '13px', color: '#718096' }}>Click to view photo gallery</span>
+              <span style={{ fontSize: '13px', color: '#718096' }}>Click to view memories</span>
             </div>
           ) : (
-            <p style={{ color: '#718096', fontSize: '14px', margin: 0 }}>No photos added yet. Click to view gallery.</p>
+            <p style={{ color: '#718096', fontSize: '14px', margin: 0 }}>No memories added yet. Click to view memories.</p>
           )}
         </div>
 
@@ -257,7 +257,7 @@ export default function Home() {
         textAlign: 'center', color: '#ffffff'
       }}>
         <h4 style={{ color: '#bc9226', margin: '0 0 15px 0', fontSize: '16px', letterSpacing: '2px', fontWeight: '700', textTransform: 'uppercase' }}>
-          🌟 இன்றைய சிந்தனை
+          
         </h4>
         <p style={{ fontSize: '22px', fontWeight: '600', fontStyle: 'italic', margin: 0, color: '#f7fafc' }}>
           "Living together as one is the ultimate way of life, and staying united by love is eternal bliss!"
@@ -284,7 +284,7 @@ export default function Home() {
         </div>
       </footer>
 
-      {/* Popup Notification for Upcoming Events */}
+      {/* Popup Notification */}
       {showPopup && upcomingEvents.length > 0 && (
         <div style={{ 
           position: 'fixed', bottom: '90px', right: '25px', backgroundColor: '#c29292',

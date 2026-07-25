@@ -1,12 +1,17 @@
 import React, { useEffect, useState } from 'react';
-import { getUpcomingEvents } from '../Api';
-import { Link } from 'react-router-dom'; 
+import { getUpcomingEvents, getFamilyMembers, getPhotos } from '../Api'; // மற்ற 2 கார்டுகளுக்கான API-க்கள்
+import { Link, useNavigate } from 'react-router-dom'; 
 import myFamilyBg from '../assets/background.jpg';
 
 export default function Home() {
+  const navigate = useNavigate();
+
   const [quoteIndex, setQuoteIndex] = useState(0);
   const [fade, setFade] = useState(true);
   const [upcomingEvents, setUpcomingEvents] = useState([]);
+  const [allEvents, setAllEvents] = useState([]);
+  const [memberCount, setMemberCount] = useState(0); // Family Members Count
+  const [photoCount, setPhotoCount] = useState(0);   // Photos Count
   const [showPopup, setShowPopup] = useState(false);
   const [time, setTime] = useState(new Date());
 
@@ -29,6 +34,7 @@ export default function Home() {
 
     const clockTimer = setInterval(() => setTime(new Date()), 1000);
 
+    // 1. Calendar Events Fetching
     getUpcomingEvents()
       .then((data) => {
         if (Array.isArray(data) && data.length > 0) {
@@ -37,6 +43,8 @@ export default function Home() {
             const dateB = new Date(b.event_date || b.eventDate);
             return dateA - dateB;
           });
+
+          setAllEvents(sortedData);
 
           const firstEventDate = new Date(sortedData[0].event_date || sortedData[0].eventDate).toLocaleDateString('en-IN');
           const firstDateEvents = sortedData.filter(ev => {
@@ -49,6 +57,24 @@ export default function Home() {
         }
       })
       .catch((err) => console.error("Upcoming events load failed", err));
+
+    // 2. Family Members Fetching
+    if (getFamilyMembers) {
+      getFamilyMembers()
+        .then((data) => {
+          if (Array.isArray(data)) setMemberCount(data.length);
+        })
+        .catch((err) => console.error("Members count load failed", err));
+    }
+
+    // 3. Photos Fetching
+    if (getPhotos) {
+      getPhotos()
+        .then((data) => {
+          if (Array.isArray(data)) setPhotoCount(data.length);
+        })
+        .catch((err) => console.error("Photos count load failed", err));
+    }
 
     return () => {
       clearInterval(quoteTimer);
@@ -92,6 +118,7 @@ export default function Home() {
         .feature-box {
           transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
           border: 1px solid rgba(0,0,0,0.03);
+          cursor: pointer;
         }
         .feature-box:hover {
           transform: translateY(-8px);
@@ -162,7 +189,7 @@ export default function Home() {
         }
       `}</style>
 
-
+      {/* Hero Banner */}
       <div style={{
         display: 'flex',
         justifyContent: 'center',
@@ -181,8 +208,6 @@ export default function Home() {
         
         <div className="hero-card" style={{
           background: 'rgba(255, 255, 255, 0.08)',
-          backdropFilter: 'blur(16px)',
-          WebkitBackdropFilter: 'blur(16px)',
           border: '1px solid rgba(255, 255, 255, 0.2)',
           color: '#fff',
           padding: '50px 20px',
@@ -194,7 +219,6 @@ export default function Home() {
           boxSizing: 'border-box',
         }}>
   
-          {/* Main Title */}
           <h1 className="hero-title" style={{ 
             fontSize: '56px', 
             margin: '0 0 20px 0', 
@@ -219,7 +243,6 @@ export default function Home() {
             marginBottom: '30px',
             border: '1px solid rgba(255,255,255,0.05)'
           }}>
-           
             <p className={`quote-fade ${fade ? 'quote-visible' : ''}`} style={{
               margin: 0,
               fontSize: '16px',
@@ -264,7 +287,7 @@ export default function Home() {
         </p>
       </div>
 
-   
+      {/* 3 Interactive Cards */}
       <div style={{
         width: '100%',
         maxWidth: '940px',
@@ -274,59 +297,89 @@ export default function Home() {
         padding: '0 20px',
         boxSizing: 'border-box'
       }}>
-        {/* Box 1 */}
-        <div className="feature-box" style={{
-          backgroundColor: '#ffffff',
-          padding: '35px 30px',
-          borderRadius: '24px',
-          boxShadow: '0 10px 25px rgba(0,0,0,0.02)',
-          textAlign: 'center'
-        }}>
+        {/* Box 1: Important Dates */}
+        <div 
+          className="feature-box" 
+          onClick={() => navigate('/events')} 
+          style={{
+            backgroundColor: '#ffffff',
+            padding: '35px 30px',
+            borderRadius: '24px',
+            boxShadow: '0 10px 25px rgba(0,0,0,0.02)',
+            textAlign: 'center'
+          }}
+        >
           <div style={{ width: '70px', height: '70px', backgroundColor: '#f0fff4', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 20px auto' }}>
             <span style={{ fontSize: '32px' }}>📅</span>
           </div>
           <h3 style={{ color: '#1a2b4c', margin: '0 0 12px 0', fontSize: '19px', fontWeight: '600' }}>Important Dates</h3>
           <p style={{ color: '#718096', fontSize: '14.5px', margin: 0, lineHeight: '1.6' }}>
-            Stay updated with family birthdays, wedding anniversaries, and upcoming special events.
+            {allEvents.length > 0 ? (
+              <span>
+                <strong>{allEvents.length} upcoming event(s)</strong> added to calendar. Click to view details and add new dates.
+              </span>
+            ) : (
+              "Stay updated with family birthdays, wedding anniversaries, and upcoming special events."
+            )}
           </p>
         </div>
 
-        {/* Box 2 */}
-        <div className="feature-box" style={{
-          backgroundColor: '#ffffff',
-          padding: '35px 30px',
-          borderRadius: '24px',
-          boxShadow: '0 10px 25px rgba(0,0,0,0.02)',
-          textAlign: 'center'
-        }}>
+        {/* Box 2: Family Directory */}
+        <div 
+          className="feature-box" 
+          onClick={() => navigate('/family-tree')} 
+          style={{
+            backgroundColor: '#ffffff',
+            padding: '35px 30px',
+            borderRadius: '24px',
+            boxShadow: '0 10px 25px rgba(0,0,0,0.02)',
+            textAlign: 'center'
+          }}
+        >
           <div style={{ width: '70px', height: '70px', backgroundColor: '#ebf8ff', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 20px auto' }}>
             <span style={{ fontSize: '32px' }}>👨‍👩‍👧‍👦</span>
           </div>
           <h3 style={{ color: '#1a2b4c', margin: '0 0 12px 0', fontSize: '19px', fontWeight: '600' }}>Family Directory</h3>
           <p style={{ color: '#718096', fontSize: '14.5px', margin: 0, lineHeight: '1.6' }}>
-            Find the details, relationships, and contact information of all our family members in one place.
+            {memberCount > 0 ? (
+              <span>
+                Explore profile details and relationships of <strong>{memberCount} family members</strong>.
+              </span>
+            ) : (
+              "Find the details, relationships, and contact information of all our family members in one place."
+            )}
           </p>
         </div>
 
-        {/* Box 3 */}
-        <div className="feature-box" style={{
-          backgroundColor: '#ffffff',
-          padding: '35px 30px',
-          borderRadius: '24px',
-          boxShadow: '0 10px 25px rgba(0,0,0,0.02)',
-          textAlign: 'center'
-        }}>
+        {/* Box 3: Sweet Memories */}
+        <div 
+          className="feature-box" 
+          onClick={() => navigate('/photos')} 
+          style={{
+            backgroundColor: '#ffffff',
+            padding: '35px 30px',
+            borderRadius: '24px',
+            boxShadow: '0 10px 25px rgba(0,0,0,0.02)',
+            textAlign: 'center'
+          }}
+        >
           <div style={{ width: '70px', height: '70px', backgroundColor: '#fffaf0', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 20px auto' }}>
             <span style={{ fontSize: '32px' }}>📸</span>
           </div>
           <h3 style={{ color: '#1a2b4c', margin: '0 0 12px 0', fontSize: '19px', fontWeight: '600' }}>Sweet Memories</h3>
           <p style={{ color: '#718096', fontSize: '14.5px', margin: 0, lineHeight: '1.6' }}>
-            Store and cherish beautiful photographs of past celebrations and family milestones.
+            {photoCount > 0 ? (
+              <span>
+                Browse through <strong>{photoCount} saved photo(s)</strong> of past family celebrations and memories.
+              </span>
+            ) : (
+              "Store and cherish beautiful photographs of past celebrations and family milestones."
+            )}
           </p>
         </div>
       </div>
 
-      {/* 🌟 Thought of the Day */}
+      {/* Quote Section */}
       <div className="quote-section" style={{
         width: 'calc(100% - 40px)',
         maxWidth: '900px',
@@ -348,9 +401,8 @@ export default function Home() {
         </p>
       </div>
 
+      {/* Footer */}
       <footer style={{
-      
-       
         width: '100%',
         backgroundColor: '#ffffff',
         borderTop: '1px solid #e2e8f0', 
@@ -398,7 +450,7 @@ export default function Home() {
         </div>
       </footer>
 
-      {/* ⏰ Upcoming events popup */}
+      {/* Popup Notification */}
       {showPopup && upcomingEvents.length > 0 && (
         <div className="upcoming-popup" style={{ 
           position: 'fixed', 
@@ -442,4 +494,4 @@ export default function Home() {
       )}
     </div>
   );
-};
+}

@@ -10,9 +10,11 @@ export default function Home() {
   const [fade, setFade] = useState(true);
   const [allEvents, setAllEvents] = useState([]);
   const [photos, setPhotos] = useState([]);
-  const [upcomingEvents, setUpcomingEvents] = useState([]);
   const [memberCount, setMemberCount] = useState(0); 
-  const [showPopup, setShowPopup] = useState(false);
+  
+  // Events Modal Control (Important Dates கிளிக் செய்யும் போது திறக்க)
+  const [showEventsModal, setShowEventsModal] = useState(false);
+
   const [time, setTime] = useState(new Date());
 
   const familyQuotes = [
@@ -34,32 +36,18 @@ export default function Home() {
 
     const clockTimer = setInterval(() => setTime(new Date()), 1000);
 
-    // Fetch Events
+    // கேலண்டரில் சேமித்த Events-ஐ Fetch செய்தல்
     getUpcomingEvents()
       .then((data) => {
         if (Array.isArray(data)) {
-          setAllEvents(data);
-          if (data.length > 0) {
-            const sortedData = [...data].sort((a, b) => {
-              const dateA = new Date(a.event_date || a.eventDate);
-              const dateB = new Date(b.event_date || b.eventDate);
-              return dateA - dateB;
-            });
-
-            const firstEventDate = new Date(sortedData[0].event_date || sortedData[0].eventDate).toLocaleDateString('en-IN');
-            const firstDateEvents = sortedData.filter(ev => {
-              const currentEvDate = new Date(ev.event_date || ev.eventDate).toLocaleDateString('en-IN');
-              return currentEvDate === firstEventDate;
-            });
-
-            setUpcomingEvents(firstDateEvents);
-            setShowPopup(true);
-          }
+          // தேதியின் அடிப்படையில் வரிசைப்படுத்துதல்
+          const sorted = [...data].sort((a, b) => new Date(a.event_date || a.eventDate) - new Date(b.event_date || b.eventDate));
+          setAllEvents(sorted);
         }
       })
       .catch((err) => console.error("Events fetch failed:", err));
 
-    // Fetch Photos
+    // Photos Fetch செய்தல்
     getPhotos()
       .then((data) => {
         if (Array.isArray(data)) {
@@ -68,7 +56,7 @@ export default function Home() {
       })
       .catch((err) => console.error("Photos fetch failed:", err));
 
-    // Fetch Family Members
+    // Members Count Fetch செய்தல்
     getFamilyMembers()
       .then((data) => {
         if (Array.isArray(data)) {
@@ -123,7 +111,6 @@ export default function Home() {
         .primary-btn:hover {
           transform: translateY(-2px);
           box-shadow: 0 8px 25px rgba(26, 43, 76, 0.35);
-          background: linear-gradient(135deg, #2c426f 0%, #1a2b4c 100%);
         }
       `}</style>
 
@@ -145,8 +132,8 @@ export default function Home() {
           <h1 className="hero-title" style={{ 
             fontSize: '56px', margin: '0 0 20px 0', letterSpacing: '1px', fontWeight: '700',
             background: 'linear-gradient(to right, #ffffff, #e2e8f0)',
-            WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent',
-            textShadow: '0 4px 12px rgba(0,0,0,0.15)'
+            WebkitBackgroundClip: 'text',
+            //  WebkitTextFillColor: 'transparent'
           }}>
             குடும்ப உறவுகள்
           </h1>
@@ -171,10 +158,10 @@ export default function Home() {
         </div>
       </div>
 
-      {/* Description Section */}
+      {/* Info Section */}
       <div className="info-section" style={{
         width: 'calc(100% - 40px)', maxWidth: '900px', backgroundColor: '#ffffff',
-        borderRadius: '24px', padding: '50px 45px', margin: '60px 20px 30px 20px',
+        borderRadius: '24px', padding: '50px 45px', margin: '60px 20px 40px 20px',
         boxShadow: '0 15px 35px rgba(0,0,0,0.03)', boxSizing: 'border-box',
         textAlign: 'center', border: '1px solid #edf2f7'
       }}>
@@ -185,35 +172,29 @@ export default function Home() {
         
         <p className="info-text" style={{ color: '#4a5568', fontSize: '17px', lineHeight: '1.9', margin: 0 }}>
           Endless love across generations and the immense affection we share with each other form the very foundation of our family. 
-          Standing shoulder to shoulder through joy and sorrow, following the path shown by our ancestors with unity is our pride. 
-          This platform is a loving bridge connecting all our family members!
+          Standing shoulder to shoulder through joy and sorrow, following the path shown by our ancestors with unity is our pride.
         </p>
       </div>
 
-      {/* 3 Main Feature Cards */}
+      {/* Cards Section */}
       <div style={{
         width: '100%', maxWidth: '940px', display: 'grid',
         gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
-        gap: '25px', padding: '0 20px', boxSizing: 'border-box'
+        gap: '25px', padding: '0 20px', boxSizing: 'border-box',
+        marginBottom: '60px'
       }}>
         
-        {/* 1. Important Dates Card */}
-        <div className="feature-box" onClick={() => navigate('/events')} style={{ backgroundColor: '#ffffff', padding: '30px 25px', borderRadius: '24px', textAlign: 'center' }}>
+        
+        <div className="feature-box" onClick={() => setShowEventsModal(true)} style={{ backgroundColor: '#ffffff', padding: '30px 25px', borderRadius: '24px', textAlign: 'center' }}>
           <div style={{ width: '60px', height: '60px', backgroundColor: '#f0fff4', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 15px auto' }}>
             <span style={{ fontSize: '28px' }}>📅</span>
           </div>
           <h3 style={{ color: '#1a2b4c', margin: '0 0 10px 0', fontSize: '18px', fontWeight: '600' }}>Important Dates</h3>
           
-          {allEvents.length > 0 ? (
-            <div>
-              <p style={{ color: '#2e7d32', fontWeight: 'bold', fontSize: '15px', margin: '0 0 8px 0' }}>
-                🎉 {allEvents.length} Event(s) Scheduled
-              </p>
-              <span style={{ fontSize: '13px', color: '#718096' }}>Click to view calendar & details</span>
-            </div>
-          ) : (
-            <p style={{ color: '#718096', fontSize: '14px', margin: 0 }}>No upcoming events added yet. Click to view calendar.</p>
-          )}
+          <p style={{ color: '#2e7d32', fontWeight: 'bold', fontSize: '15px', margin: '0 0 8px 0' }}>
+            🎉 {allEvents.length} Saved Event(s)
+          </p>
+          <span style={{ fontSize: '13px', color: '#718096' }}>Click to view details</span>
         </div>
 
         {/* 2. Family Directory Card */}
@@ -228,41 +209,79 @@ export default function Home() {
           <span style={{ fontSize: '13px', color: '#718096' }}>View relationships & profiles</span>
         </div>
 
-        {/* 3. Sweet Memories Card (Navigates to /memories) */}
+        {/* 3. Sweet Memories Card */}
         <div className="feature-box" onClick={() => navigate('/memories')} style={{ backgroundColor: '#ffffff', padding: '30px 25px', borderRadius: '24px', textAlign: 'center' }}>
           <div style={{ width: '60px', height: '60px', backgroundColor: '#fffaf0', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 15px auto' }}>
             <span style={{ fontSize: '28px' }}>📸</span>
           </div>
           <h3 style={{ color: '#1a2b4c', margin: '0 0 10px 0', fontSize: '18px', fontWeight: '600' }}>Sweet Memories</h3>
-          
-          {photos.length > 0 ? (
-            <div>
-              <p style={{ color: '#e65100', fontWeight: 'bold', fontSize: '15px', margin: '0 0 8px 0' }}>
-                🖼️ {photos.length} Photo(s) Saved
-              </p>
-              <span style={{ fontSize: '13px', color: '#718096' }}>Click to view memories</span>
-            </div>
-          ) : (
-            <p style={{ color: '#718096', fontSize: '14px', margin: 0 }}>No memories added yet. Click to view memories.</p>
-          )}
+          <p style={{ color: '#e65100', fontWeight: 'bold', fontSize: '15px', margin: '0 0 8px 0' }}>
+            🖼️ {photos.length} Photo(s) Saved
+          </p>
+          <span style={{ fontSize: '13px', color: '#718096' }}>Click to view gallery</span>
         </div>
 
       </div>
 
-      {/* Quote Section */}
-      <div className="quote-section" style={{
-        width: 'calc(100% - 40px)', maxWidth: '900px',
-        background: 'linear-gradient(135deg, #1a2b4c 0%, #111d33 100%)',
-        borderRadius: '24px', padding: '45px 40px', margin: '40px 20px 60px 20px',
-        textAlign: 'center', color: '#ffffff'
-      }}>
-        <h4 style={{ color: '#bc9226', margin: '0 0 15px 0', fontSize: '16px', letterSpacing: '2px', fontWeight: '700', textTransform: 'uppercase' }}>
-          
-        </h4>
-        <p style={{ fontSize: '22px', fontWeight: '600', fontStyle: 'italic', margin: 0, color: '#f7fafc' }}>
-          "Living together as one is the ultimate way of life, and staying united by love is eternal bliss!"
-        </p>
-      </div>
+      {/* 🌟 SAVED EVENTS POPUP MODAL (IMPORTANT DATES CLICK PANNUM POTHU MATTUM VARUM) */}
+      {showEventsModal && (
+        <div style={{
+          position: 'fixed', top: 0, left: 0, width: '100%', height: '100%',
+          backgroundColor: 'rgba(0, 0, 0, 0.6)', backdropFilter: 'blur(4px)',
+          display: 'flex', justifyContent: 'center', alignItems: 'center',
+          zIndex: 2000, padding: '20px', boxSizing: 'border-box'
+        }}>
+          <div style={{
+            backgroundColor: '#ffffff', borderRadius: '24px', padding: '30px',
+            width: '100%', maxWidth: '500px', maxHeight: '80vh', overflowY: 'auto',
+            boxShadow: '0 25px 50px rgba(0,0,0,0.25)', position: 'relative'
+          }}>
+            {/* Close Button */}
+            <button 
+              onClick={() => setShowEventsModal(false)}
+              style={{
+                position: 'absolute', top: '20px', right: '20px',
+                background: '#f1f5f9', border: 'none', borderRadius: '50%',
+                width: '36px', height: '36px', cursor: 'pointer',
+                fontSize: '18px', fontWeight: 'bold', color: '#475569'
+              }}
+            >
+              ✕
+            </button>
+
+            <h2 style={{ margin: '0 0 20px 0', color: '#1a2b4c', fontSize: '22px', display: 'flex', alignItems: 'center', gap: '10px' }}>
+              <span>📅</span> Saved Family Events
+            </h2>
+
+            {allEvents.length === 0 ? (
+              <p style={{ color: '#64748b', textAlign: 'center', margin: '40px 0' }}>
+                No events saved in the calendar yet!
+              </p>
+            ) : (
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                {allEvents.map((evt, idx) => (
+                  <div key={evt.id || evt._id || idx} style={{
+                    padding: '16px', borderRadius: '16px', backgroundColor: '#f8fafc',
+                    borderLeft: '4px solid #1a2b4c', border: '1px solid #e2e8f0', borderLeftWidth: '5px'
+                  }}>
+                    <div style={{ fontWeight: '600', color: '#1e293b', fontSize: '16px', marginBottom: '4px' }}>
+                      {evt.title}
+                    </div>
+                    <div style={{ fontSize: '13px', color: '#059669', fontWeight: '500' }}>
+                      🗓️ {new Date(evt.event_date || evt.eventDate).toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' })}
+                    </div>
+                    {evt.description && (
+                      <div style={{ fontSize: '13px', color: '#64748b', marginTop: '6px' }}>
+                        {evt.description}
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        </div>
+      )}
 
       {/* Footer */}
       <footer style={{
@@ -283,31 +302,6 @@ export default function Home() {
           </div>
         </div>
       </footer>
-
-      {/* Popup Notification */}
-      {showPopup && upcomingEvents.length > 0 && (
-        <div style={{ 
-          position: 'fixed', bottom: '90px', right: '25px', backgroundColor: '#c29292',
-          color: '#f1eeee', padding: '20px', borderRadius: '16px', boxShadow: '0 15px 35px rgba(0,0,0,0.2)',
-          zIndex: 1000, maxWidth: '340px', textAlign: 'left', boxSizing: 'border-box'
-        }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' }}>
-            <strong style={{ fontSize: '15px' }}>🔔 Next Family Event!</strong>
-            <button onClick={() => setShowPopup(false)} style={{ background: 'none', border: 'none', cursor: 'pointer', fontWeight: 'bold', fontSize: '20px', color: '#fff' }}>×</button>
-          </div>
-          <hr style={{ borderTop: '1px solid rgba(255,255,255,0.2)', margin: '8px 0' }} />
-          <ul style={{ paddingLeft: '18px', margin: 0, fontSize: '14px' }}>
-            {upcomingEvents.map((uevt) => (
-              <li key={uevt.id || uevt._id} style={{ marginBottom: '6px' }}>
-                <strong style={{ color: '#fff' }}>{uevt.title}</strong> <br/>
-                <span style={{ fontSize: '12px', color: '#e8f5e9' }}>
-                  📅 {new Date(uevt.event_date || uevt.eventDate).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}
-                </span>
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
     </div>
   );
 }

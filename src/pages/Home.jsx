@@ -121,7 +121,6 @@ export default function Home() {
           background: linear-gradient(135deg, #2c426f 0%, #1a2b4c 100%);
         }
 
-        /* 📱 மொபைல் போனுக்கான அதிரடி மாற்றங்கள் (Responsive CSS) */
         @media (max-width: 768px) {
           .hero-title {
             font-size: 38px !important;
@@ -163,7 +162,7 @@ export default function Home() {
         }
       `}</style>
 
-      {/* 🌟 Hero Banner Section */}
+
       <div style={{
         display: 'flex',
         justifyContent: 'center',
@@ -220,7 +219,7 @@ export default function Home() {
             marginBottom: '30px',
             border: '1px solid rgba(255,255,255,0.05)'
           }}>
-            {/* 🛠️ இங்கிருந்த line-height ஆனது lineHeight ஆக மாற்றப்பட்டுள்ளது */}
+           
             <p className={`quote-fade ${fade ? 'quote-visible' : ''}`} style={{
               margin: 0,
               fontSize: '16px',
@@ -265,7 +264,7 @@ export default function Home() {
         </p>
       </div>
 
-      {/* 🎛️ Feature Cards Section */}
+   
       <div style={{
         width: '100%',
         maxWidth: '940px',

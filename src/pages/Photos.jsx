@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-// சரி செய்யப்பட்டது: டூப்ளிகேட் இம்போர்ட் நீக்கப்பட்டு ஒரே வரியில் கொண்டுவரப்பட்டுள்ளது
+
 import { getPhotos, getAlbumNames, uploadPhoto, deletePhoto, photoUrl } from '../Api';
 
 export default function Photos({ mode }) { 
@@ -19,7 +19,7 @@ export default function Photos({ mode }) {
   const [caption, setCaption] = useState('');
   const [uploading, setUploading] = useState(false);
 
-  // Lightbox-க்காக சேர்க்கப்பட்ட ஸ்டேட்
+  
   const [activeLightboxImg, setActiveLightboxImg] = useState(null);
 
   useEffect(() => {
@@ -49,7 +49,7 @@ export default function Photos({ mode }) {
     refreshPhotos(selectedAlbum);
   }, [selectedAlbum]);
 
-  // சேர்க்கப்பட்டது: ESC கீ அழுத்தினால் லைட்பாக்ஸ் தானாகவே மூடுவதற்கான வசதி
+  
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (e.key === 'Escape') {
@@ -266,13 +266,14 @@ export default function Photos({ mode }) {
           ) : (
             <div className="modern-grid">
               {photos.map(p => {
-                // சரி செய்யப்பட்டது: ஜாவா பேக்கெண்ட் கேமல் கேஸ் (fileName/albumName) அல்லது அண்டர்ஸ்கோர் (file_name) இரண்டையும் ஏற்கும் பாதுகாப்பு மேப்பிங்
+                
                 const fName = p.fileName || p.file_name || '';
                 const aName = p.albumName || p.album_name || 'General';
                 const uName = p.uploaderName || p.uploader_name || 'Unknown';
                 const upAt = p.uploadedAt || p.uploaded_at;
                 
-                const finalSrc = photoUrl(fName);
+                // ✅ Fix: Uses Cloudinary URL directly from DB, falls back to photoUrl if needed
+                const finalSrc = p.imagePath || p.image_path || photoUrl(fName);
 
                 let formattedDate = 'No Date';
                 if (upAt) {
@@ -289,12 +290,12 @@ export default function Photos({ mode }) {
                 return (
                   <div className="modern-card" key={p.id}>
                     <div className="card-img-wrapper" onClick={() => setActiveLightboxImg(finalSrc)}>
-                      <img src={finalSrc} alt={p.caption || aName || 'Family Photo'} />
+                      <img src={finalSrc} alt={p.caption || p.title || aName || 'Family Photo'} />
                     </div>
                     
                     <div className="card-body">
                       <span className="badge-album">{aName}</span>
-                      <p className="card-caption">{p.caption || '❤️ Beautiful Moment'}</p>
+                      <p className="card-caption">{p.caption || p.title || '❤️ Beautiful Moment'}</p>
                       
                       <div className="card-footer-meta">
                         <div>

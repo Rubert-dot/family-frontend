@@ -191,7 +191,7 @@ export default function FamilyTree() {
                 <div style={{ fontSize: '11px', color: '#64748b', margin: '2px 0' }}>கணவர்</div>
                 <h5 style={{ margin: '0 0 8px 0', color: '#5b21b6', fontSize: '14px', fontWeight: '600' }}>Anthonysamy</h5>
                 
-                {/* 3rd Generation */}
+          
                 <div style={{ borderTop: '1px solid #f1f5f9', paddingTop: '10px', marginTop: '10px' }}>
                   <div style={{ fontSize: '10px', color: '#bc9226', fontWeight: '700', marginBottom: '6px', textAlign: 'left' }}>👶 பிள்ளைகள்:</div>
                   <div className="child-node">👧 Reena</div>

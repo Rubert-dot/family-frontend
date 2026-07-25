@@ -257,7 +257,7 @@ export default function Calendar() {
 
       <h2 className="calendar-title">Family Events Calendar</h2>
 
-      {/* 📝 1. MODERN ADD EVENT FORM */}
+  
       <form className="modern-form" onSubmit={handleSubmit}>
         <h3 className="form-title">✨ Schedule a New Event</h3>
         <div className="form-grid">
@@ -298,7 +298,7 @@ export default function Calendar() {
         </div>
       </form>
 
-      {/* 🗓️ 2. UPCOMING EVENTS SECTION */}
+   
       <h3 className="section-heading">📅 Upcoming Celebrations</h3>
       {upcoming.length === 0 ? (
         <div className="empty-state">
@@ -331,7 +331,6 @@ export default function Calendar() {
         </div>
       )}
 
-      {/* ⏳ 3. PAST EVENTS ACCORDION SECTION */}
       {past.length > 0 && (
         <div style={{ marginTop: '30px' }}>
           <h3 className="section-heading" style={{ color: '#6c757d', borderLeftColor: '#ced4da' }}>⏳ Memory Lane</h3>

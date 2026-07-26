@@ -8,6 +8,7 @@ import LouisImg from '../assets/Louis.jpg';
 import RosyImg from '../assets/Rosy.jpg';
 import RajarethinamImg from '../assets/Rajarethinam.jpg';
 import VimalImg from '../assets/Vimala.jpg';
+import IllakiyadhesanImg from '../Illakiyadhesan.jpg';
 
 export default function FamilyTree() {
   const [selectedFamily, setSelectedFamily] = useState(null);
@@ -341,7 +342,7 @@ export default function FamilyTree() {
             {/* Single Child Node */}
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', flex: '1 1 240px', minWidth: '250px' }}>
               <div className="tree-node" style={{ minHeight: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center', cursor: 'default' }}>
-                <span style={{ fontSize: '42px', marginBottom: '10px' }}>🙋‍♂️</span>
+             {renderAvatar(IlakiyadhesanImg, "Ilakiyadhesan", "#1a2b4c", "100px", "110px")}
                 <h4 style={{ margin: '8px 0 4px 0', color: '#1a2b4c', fontSize: '18px', fontWeight: '700' }}>Ilakiyadhesan</h4>
                 <div style={{ fontSize: '13px', color: '#64748b', fontStyle: 'italic' }}>குடும்பத்தின் செல்லப் பிள்ளை ✨</div>
               </div>

@@ -8,7 +8,7 @@ import LouisImg from '../assets/Louis.jpg';
 import RosyImg from '../assets/Rosy.jpg';
 import RajarethinamImg from '../assets/Rajarethinam.jpg';
 import VimalImg from '../assets/Vimala.jpg';
-import IllakiyadhesanImg from '../Illakiyadhesan.jpg';
+import IllakiyadhesanImg from '../assets/Illakiyadhesan.jpg';
 
 export default function FamilyTree() {
   const [selectedFamily, setSelectedFamily] = useState(null);

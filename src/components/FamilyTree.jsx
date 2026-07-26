@@ -119,6 +119,25 @@ export default function FamilyTree() {
         favoriteMemory:
           "அமைதியான அணுகுமுறையும் பிள்ளைகளின் கனவுகளுக்குச் சிறகு கொடுக்கும் பாசமும் இவர்களது அடையாளம் 📚"
       }
+    },
+    {
+      id: 6,
+      fatherName: "Ilakiyadhesan",
+      motherName: "",
+      relationType: "குடும்பத்தின் செல்லப் பிள்ளை",
+      fatherPhoto: IllakiyadhesanImg,
+      motherPhoto: "",
+      children: [],
+      weddingDate: "",
+      location: "",
+      occupation: "Software Engineer / Tech Professional",
+      isSingle: true,
+      lifeStory: {
+        beginning: "குடும்பத்தின் கடைக்குட்டி, அனைவரின் அன்பிலும் அரவணைப்பிலும் வளர்ந்தவர்.",
+        turningPoint: "குடும்பத்தினரின் ஆசீர்வாதத்தோடும் வழிகாட்டுதலோடும் தன் லட்சியப் பாதையில் முன்னேறி வருகிறார்.",
+        present: "தொழில்நுட்பத் துறையில் தனக்கென ஒரு இடத்தைப் பிடித்து, குடும்பத்திற்குப் பெருமை சேர்த்து வருகிறார்.",
+        favoriteMemory: "அனைவரிடமும் பாசத்தோடும் துடிப்போடும் பழகும் வீட்டின் செல்லக் குழந்தை ✨"
+      }
     }
   ];
 
@@ -299,7 +318,7 @@ export default function FamilyTree() {
           {/* Cards Grid */}
           <div style={{
             display: 'flex',
-            justifyContent: 'center',
+            justify: 'center',
             gap: '28px',
             flexWrap: 'wrap',
             width: '100%',
@@ -307,30 +326,38 @@ export default function FamilyTree() {
           }}>
             {familyData.map((item) => (
               <div key={item.id} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', flex: '1 1 240px', minWidth: '250px' }}>
-                <div className="tree-node" onClick={() => setSelectedFamily(item)}>
+                <div className="tree-node" onClick={() => setSelectedFamily(item)} style={{ width: '100%', height: '100%', boxSizing: 'border-box' }}>
                   
                   {/* Photos */}
                   <div style={{ display: 'flex', justifyContent: 'center', gap: '12px', marginBottom: '16px' }}>
                     <div style={{ textAlign: 'center' }}>
                       {renderAvatar(item.fatherPhoto, item.fatherName, '#1a2b4c', '95px', '105px')}
-                      <span style={{ fontSize: '11px', color: '#64748b', fontWeight: '600', display: 'block', marginTop: '4px' }}>அப்பா</span>
+                      <span style={{ fontSize: '11px', color: '#64748b', fontWeight: '600', display: 'block', marginTop: '4px' }}>
+                        {item.isSingle ? 'செல்லப் பிள்ளை' : 'அப்பா'}
+                      </span>
                     </div>
-                    <div style={{ textAlign: 'center' }}>
-                      {renderAvatar(item.motherPhoto, item.motherName, '#bc9226', '95px', '105px')}
-                      <span style={{ fontSize: '11px', color: '#64748b', fontWeight: '600', display: 'block', marginTop: '4px' }}>அம்மா</span>
-                    </div>
+                    {item.motherName && (
+                      <div style={{ textAlign: 'center' }}>
+                        {renderAvatar(item.motherPhoto, item.motherName, '#bc9226', '95px', '105px')}
+                        <span style={{ fontSize: '11px', color: '#64748b', fontWeight: '600', display: 'block', marginTop: '4px' }}>அம்மா</span>
+                      </div>
+                    )}
                   </div>
 
                   <h4 style={{ margin: '4px 0 2px 0', color: '#1a2b4c', fontSize: '16px', fontWeight: '700' }}>{item.fatherName}</h4>
                   <div style={{ fontSize: '12px', color: '#64748b', margin: '2px 0' }}>{item.relationType}</div>
-                  <h5 style={{ margin: '0 0 10px 0', color: '#5b21b6', fontSize: '15px', fontWeight: '600' }}>{item.motherName}</h5>
+                  {item.motherName && (
+                    <h5 style={{ margin: '0 0 10px 0', color: '#5b21b6', fontSize: '15px', fontWeight: '600' }}>{item.motherName}</h5>
+                  )}
 
-                  <div style={{ borderTop: '1px solid #f1f5f9', paddingTop: '12px', marginTop: '10px' }}>
-                    <div style={{ fontSize: '11px', color: '#bc9226', fontWeight: '700', marginBottom: '6px', textAlign: 'left' }}>👶 பிள்ளைகள்:</div>
-                    {item.children.map((child, idx) => (
-                      <div key={idx} className="child-node">{child}</div>
-                    ))}
-                  </div>
+                  {item.children.length > 0 && (
+                    <div style={{ borderTop: '1px solid #f1f5f9', paddingTop: '12px', marginTop: '10px' }}>
+                      <div style={{ fontSize: '11px', color: '#bc9226', fontWeight: '700', marginBottom: '6px', textAlign: 'left' }}>👶 பிள்ளைகள்:</div>
+                      {item.children.map((child, idx) => (
+                        <div key={idx} className="child-node">{child}</div>
+                      ))}
+                    </div>
+                  )}
 
                   <div style={{ marginTop: '14px', fontSize: '12px', color: '#1a2b4c', fontWeight: '700', backgroundColor: '#f1f5f9', padding: '8px 14px', borderRadius: '50px', border: '1px solid #cbd5e1', display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
                     📖 Read Life Story
@@ -338,15 +365,6 @@ export default function FamilyTree() {
                 </div>
               </div>
             ))}
-
-            {/* Single Child Node */}
-            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', flex: '1 1 240px', minWidth: '250px' }}>
-              <div className="tree-node" style={{ minHeight: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center', cursor: 'default' }}>
-             {renderAvatar(IlakiyadhesanImg, "Ilakiyadhesan", "#1a2b4c", "100px", "110px")}
-                <h4 style={{ margin: '8px 0 4px 0', color: '#1a2b4c', fontSize: '18px', fontWeight: '700' }}>Ilakiyadhesan</h4>
-                <div style={{ fontSize: '13px', color: '#64748b', fontStyle: 'italic' }}>குடும்பத்தின் செல்லப் பிள்ளை ✨</div>
-              </div>
-            </div>
           </div>
         </div>
       </div>
@@ -379,10 +397,10 @@ export default function FamilyTree() {
 
             <div style={{ textAlign: 'center', marginBottom: '20px' }}>
               <span style={{ fontSize: '12px', fontWeight: '700', color: '#bc9226', textTransform: 'uppercase', letterSpacing: '1px' }}>
-                📖 குடும்ப வாழ்க்கைப் பயணம்
+                📖 வாழ்க்கைப் பயணம்
               </span>
               <h3 style={{ margin: '5px 0 0 0', color: '#1a2b4c', fontSize: '22px', fontWeight: '700' }}>
-                {selectedFamily.fatherName} & {selectedFamily.motherName}
+                {selectedFamily.fatherName} {selectedFamily.motherName ? `& ${selectedFamily.motherName}` : ''}
               </h3>
             </div>
 
@@ -393,12 +411,15 @@ export default function FamilyTree() {
                 <div style={{ fontWeight: '700', color: '#1a2b4c', marginTop: '6px', fontSize: '14px' }}>{selectedFamily.fatherName}</div>
               </div>
 
-              <div style={{ fontSize: '22px' }}>❤️</div>
-
-              <div style={{ textAlign: 'center' }}>
-                {renderAvatar(selectedFamily.motherPhoto, selectedFamily.motherName, '#bc9226', '100px', '115px')}
-                <div style={{ fontWeight: '700', color: '#5b21b6', marginTop: '6px', fontSize: '14px' }}>{selectedFamily.motherName}</div>
-              </div>
+              {selectedFamily.motherName && (
+                <>
+                  <div style={{ fontSize: '22px' }}>❤️</div>
+                  <div style={{ textAlign: 'center' }}>
+                    {renderAvatar(selectedFamily.motherPhoto, selectedFamily.motherName, '#bc9226', '100px', '115px')}
+                    <div style={{ fontWeight: '700', color: '#5b21b6', marginTop: '6px', fontSize: '14px' }}>{selectedFamily.motherName}</div>
+                  </div>
+                </>
+              )}
             </div>
 
             {/* Life Story Chapters */}
@@ -415,7 +436,7 @@ export default function FamilyTree() {
                 </div>
 
                 <div className="story-section" style={{ borderLeftColor: '#059669' }}>
-                  <div className="story-title">🏡 தற்போதைய நிறைவான வாழ்க்கை:</div>
+                  <div className="story-title">🏡 தற்போதைய வாழ்க்கை:</div>
                   <p className="story-text">{selectedFamily.lifeStory.present}</p>
                 </div>
 
@@ -428,8 +449,8 @@ export default function FamilyTree() {
 
             {/* Quick Details Footer */}
             <div style={{ display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', gap: '10px', marginTop: '20px', paddingTop: '15px', borderTop: '1px solid #e2e8f0', fontSize: '12.5px', color: '#64748b' }}>
-              <span>💍 <strong>திருமணம்:</strong> {selectedFamily.weddingDate || "விவரம் இல்லை"}</span>
-              <span>📍 <strong>ஊர்:</strong> {selectedFamily.location}</span>
+              {selectedFamily.weddingDate && <span>💍 <strong>திருமணம்:</strong> {selectedFamily.weddingDate}</span>}
+              {selectedFamily.location && <span>📍 <strong>ஊர்:</strong> {selectedFamily.location}</span>}
             </div>
 
           </div>

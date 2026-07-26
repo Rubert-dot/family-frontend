@@ -12,6 +12,7 @@ import VimalImg from '../assets/Vimala.jpg';
 export default function FamilyTree() {
   const [selectedFamily, setSelectedFamily] = useState(null);
 
+  // 📖 வாழ்க்கைக் கதைகளுடன் (Life Story) கூடிய Family Data
   const familyData = [
     {
       id: 1,
@@ -21,7 +22,16 @@ export default function FamilyTree() {
       fatherPhoto: SavarirajImg,
       motherPhoto: NagomiImg,
       children: ["👦 Robin Raj", "👦 Kevin Raj"],
-      description: "அன்பும் பாசமும் நிறைந்த குடும்பம்."
+      weddingDate: "15 மே 2002",
+      location: "சென்னை / திருச்சி",
+      occupation: "தொழிலதிபர் / குடும்பத் தலைவி",
+      // 🌟 முழு வாழ்க்கைக் கதை
+      lifeStory: {
+        beginning: "ஆரம்ப காலத்தில் பல சவால்களைச் சந்தித்து, உழைப்பையே மூலதனமாகக் கொண்டு தங்கள் பயணத்தைத் தொடங்கினார்கள்.",
+        turningPoint: "சவரி ராஜ் அவர்களின் விடாமுயற்சியும், நகோமி அத்தையின் பக்கபலமான ஆதரவும் குடும்பத்தின் வளர்ச்சிக்கு அடித்தளமாக அமைந்தது.",
+        present: "இன்று ரோபின் ராஜ் மற்றும் கெவின் ராஜ் ஆகிய இரு மகன்களையும் சிறந்த முறையில் வளர்த்து, சொந்த முயற்சியில் உயர்ந்து குடும்பத்திற்கே முன்னுதாரணமாகத் திகழ்கிறார்கள்.",
+        favoriteMemory: "குடும்ப விழாக்கள் அனைத்திலும் நகோமி அத்தையின் கைமணத்தில் உருவாகும் விருந்து தான் அனைவரையும் ஒன்றிணைக்கும் சிறப்பம்சமாகும்! 🍲"
+      }
     },
     {
       id: 2,
@@ -31,7 +41,15 @@ export default function FamilyTree() {
       fatherPhoto: PaulrajImg,
       motherPhoto: SelviImg,
       children: ["👦 Qubert Felix Raj", "👦 Rubert Rex"],
-      description: "குடும்பத்தின் தூண்களில் ஒன்று."
+      weddingDate: "20 ஆகஸ்ட் 1998",
+      location: "சென்னை",
+      occupation: "அரசு ஊழியர் / ஆசிரியர்",
+      lifeStory: {
+        beginning: "குடும்பத்தின் மூத்தத் தூணாக நின்று அனைவரையும் வழிநடத்திய பெருமை பால்ராஜ் அவர்களுக்கு உண்டு.",
+        turningPoint: "லூர்து செல்வி அவர்களின் அன்பான கவனிப்பும் நேர்மறையான எண்ணங்களும் குடும்பத்தை என்றும் மகிழ்ச்சியாக வைத்திருந்தது.",
+        present: "க்யூபர்ட் ஃபெலிக்ஸ் ராஜ் மற்றும் ரூபர்ட் ரெக்ஸ் ஆகியோரைச் சிறந்த கல்வியாளர்களாகவும் நற்பண்பு உள்ளவர்களாகவும் உருவாக்கியுள்ளனர்.",
+        favoriteMemory: "எந்த ஒரு குடும்பச் சிக்கலாக இருந்தாலும் இவர்களது ஆலோசனையும் வழிகாட்டுதலும் தான் முதல் தீர்வாக இருக்கும் ❤️"
+      }
     },
     {
       id: 3,
@@ -41,7 +59,15 @@ export default function FamilyTree() {
       fatherPhoto: LouisImg,
       motherPhoto: RosyImg,
       children: ["👦 Ramis Raj"],
-      description: "மகிழ்ச்சி நிறைந்த குடும்பம்."
+      weddingDate: "10 ஜனவரி 2005",
+      location: "கோவை",
+      occupation: "தனியார் நிறுவனம் / குடும்ப நிர்வாகம்",
+      lifeStory: {
+        beginning: "எளிமையும் அன்பும் கொண்ட ஒரு அழகான பயணமாக இவர்களது வாழ்க்கை தொடங்கியது.",
+        turningPoint: "லூயிஸ் ஆரோக்கிய தாஸ் அவர்களின் கடின உழைப்பும், ரோஸ்லின்மேரி அவர்களின் நேர்த்தியான குடும்ப நிர்வாகமும் இவர்களை உயர்த்தியது.",
+        present: "மகன் ரமிஸ் ராஜ்-ன் எதிர்காலத்திற்காகத் தங்கள் வாழ்க்கையை அர்ப்பணித்து, சந்தோஷமான சூழலில் வாழ்கிறார்கள்.",
+        favoriteMemory: "எப்போதும் முகத்தில் புன்னகையுடனும், உறவினர்களை இன்முகத்தோடு வரவேற்பதிலும் இவர்கள் தனி சிறப்புமிக்கவர்கள்! ✨"
+      }
     },
     {
       id: 4,
@@ -51,7 +77,15 @@ export default function FamilyTree() {
       fatherPhoto: "",
       motherPhoto: "",
       children: ["👧 Reena", "👦 Joswva"],
-      description: "ஒற்றுமைக்கு பெயர் பெற்ற குடும்பம்."
+      weddingDate: "05 நவம்பர் 2000",
+      location: "மதுரை",
+      occupation: "சுய தொழில்",
+      lifeStory: {
+        beginning: "பாரம்பரியத்தையும் ஆன்மீகத்தையும் அடித்தளமாகக் கொண்டு தொடங்கிய குடும்பப் பயணம்.",
+        turningPoint: "எத்தனை கடினமான காலகட்டத்திலும் நம்பிக்கையையும் ஒற்றுமையையும் கைவிடாமல் வாழ்ந்தார்கள்.",
+        present: "ரீனா மற்றும் ஜோஷ்வா ஆகிய பிள்ளைகளுக்குப் பண்பாட்டையும் சிறந்த ஒழுக்கத்தையும் கற்பித்து வளர்த்துள்ளனர்.",
+        favoriteMemory: "குடும்பத்தின் ஒற்றுமைக்கும், எந்தச் சூழலிலும் விட்டுக்கொடுக்காத அன்புக்கும் பெயர் பெற்றவர்கள் 🏛️"
+      }
     },
     {
       id: 5,
@@ -61,34 +95,49 @@ export default function FamilyTree() {
       fatherPhoto: RajarethinamImg,
       motherPhoto: VimalImg,
       children: ["👧 Subiya", "👦 Deniesh"],
-      description: "அன்பான இல்லம்."
+      weddingDate: "12 ஏப்ரல் 2008",
+      location: "சென்னை",
+      occupation: "பொறியாளர் / ஆசிரியர்",
+      lifeStory: {
+        beginning: "நம்பிக்கை மற்றும் பரஸ்பர புரிந்துணர்வுடன் தொடங்கிய வாழ்க்கைப் பாதை.",
+        turningPoint: "ராஜரத்தினம் அவர்களின் விடாமுயற்சியும், விமலா அவர்களின் அறிவார்ந்த வழிகாட்டுதலும் குடும்பத்தை அடுத்த கட்டத்திற்கு எடுத்துச் சென்றது.",
+        present: "சுபியா மற்றும் தினேஷ் ஆகிய இரு பிள்ளைகளின் கல்விக்கும் நல்வாழ்விற்கும் முன்னுரிமை அளித்து அன்பான இல்லத்தை உருவாக்கியுள்ளனர்.",
+        favoriteMemory: "அமைதியான அணுகுமுறையும் பிள்ளைகளின் கனவுகளுக்குச் சிறகு கொடுக்கும் பாசமும் இவர்களது அடையளம் 📚"
+      }
     }
   ];
 
-  
-  const renderAvatar = (photoUrl, name, borderColor, size = '55px') => {
+  const renderAvatar = (photoUrl, name, borderColor, width = '100px', height = '110px') => {
     if (photoUrl) {
       return (
         <img 
           src={photoUrl} 
           alt={name} 
-          style={{ width: size, height: size, borderRadius: '50%', border: `2px solid ${borderColor}`, objectFit: 'cover' }} 
+          style={{ 
+            width: width, 
+            height: height, 
+            borderRadius: '16px', 
+            border: `3px solid ${borderColor}`, 
+            objectFit: 'cover',
+            boxShadow: '0 4px 10px rgba(0,0,0,0.1)'
+          }} 
         />
       );
     }
     return (
       <div style={{
-        width: size,
-        height: size,
-        borderRadius: '50%',
-        border: `2px solid ${borderColor}`,
+        width: width,
+        height: height,
+        borderRadius: '16px',
+        border: `3px solid ${borderColor}`,
         backgroundColor: '#e2e8f0',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        fontSize: '20px',
+        fontSize: '28px',
         color: '#64748b',
-        fontWeight: 'bold'
+        fontWeight: 'bold',
+        boxShadow: '0 4px 10px rgba(0,0,0,0.05)'
       }}>
         {name ? name.charAt(0) : '👤'}
       </div>
@@ -111,19 +160,19 @@ export default function FamilyTree() {
 
         .tree-node {
           background: #ffffff;
-          border-radius: 16px;
-          box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+          border-radius: 20px;
+          box-shadow: 0 4px 16px rgba(0,0,0,0.06);
           border: 1px solid #e2e8f0;
-          padding: 20px 16px;
+          padding: 24px 18px;
           text-align: center;
           transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
-          min-width: 220px;
+          min-width: 250px;
           cursor: pointer;
         }
 
         .tree-node:hover {
-          transform: translateY(-5px);
-          box-shadow: 0 12px 24px rgba(26, 43, 76, 0.12);
+          transform: translateY(-6px);
+          box-shadow: 0 14px 28px rgba(26, 43, 76, 0.14);
           border-color: #bc9226;
         }
 
@@ -167,6 +216,30 @@ export default function FamilyTree() {
         .back-btn:hover {
           transform: translateX(-5px);
         }
+
+        .story-section {
+          background: #f8fafc;
+          border-left: 4px solid #bc9226;
+          padding: 14px 16px;
+          border-radius: 0 14px 14px 0;
+          margin-bottom: 14px;
+          text-align: left;
+        }
+        .story-title {
+          font-weight: 700;
+          color: #1a2b4c;
+          font-size: 13.5px;
+          margin-bottom: 4px;
+          display: flex;
+          align-items: center;
+          gap: 6px;
+        }
+        .story-text {
+          color: #475569;
+          font-size: 13.5px;
+          line-height: 1.6;
+          margin: 0;
+        }
       `}</style>
 
       {/* Back Button */}
@@ -176,7 +249,7 @@ export default function FamilyTree() {
         </Link>
       </div>
 
-      {/* Main Content */}
+      {/* Main Container */}
       <div style={{
         width: '100%',
         maxWidth: '1300px',
@@ -193,16 +266,11 @@ export default function FamilyTree() {
         </h2>
         <div style={{ width: '60px', height: '4px', backgroundColor: '#bc9226', margin: '0 auto 20px auto', borderRadius: '2px' }}></div>
         <p style={{ color: '#64748b', fontSize: '15px', margin: '0 0 50px 0' }}>
-          புகைப்படங்கள் மற்றும் குடும்ப விவரங்களைக் காணவும்!
+          புகைப்படங்கள் மற்றும் அவசியமான வாழ்க்கைக் கதைகளைக் காணக் கிளிக் செய்யவும்! 📖
         </p>
 
-        <div style={{
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          gap: '40px'
-        }}>
-          {/* Root Parents */}
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '40px' }}>
+          {/* Root Node */}
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
             <div className="tree-node root-node" style={{ padding: '20px 35px' }}>
               <div style={{ fontSize: '20px', fontWeight: '700', letterSpacing: '0.5px' }}>
@@ -216,116 +284,138 @@ export default function FamilyTree() {
           <div style={{
             display: 'flex',
             justify: 'center',
-            gap: '24px',
+            gap: '28px',
             flexWrap: 'wrap',
             width: '100%',
-            maxWidth: '1250px'
+            maxWidth: '1280px'
           }}>
             {familyData.map((item) => (
-              <div key={item.id} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', flex: '1 1 200px', minWidth: '220px' }}>
+              <div key={item.id} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', flex: '1 1 240px', minWidth: '250px' }}>
                 <div className="tree-node" onClick={() => setSelectedFamily(item)}>
-                  <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '12px' }}>
-                    {renderAvatar(item.fatherPhoto, item.fatherName, '#1a2b4c')}
-                    <div style={{ marginLeft: '-12px' }}>
-                      {renderAvatar(item.motherPhoto, item.motherName, '#bc9226')}
+                  
+                  {/* Photos */}
+                  <div style={{ display: 'flex', justifyContent: 'center', gap: '12px', marginBottom: '16px' }}>
+                    <div style={{ textAlign: 'center' }}>
+                      {renderAvatar(item.fatherPhoto, item.fatherName, '#1a2b4c', '95px', '105px')}
+                      <span style={{ fontSize: '11px', color: '#64748b', fontWeight: '600', display: 'block', marginTop: '4px' }}>அப்பா</span>
+                    </div>
+                    <div style={{ textAlign: 'center' }}>
+                      {renderAvatar(item.motherPhoto, item.motherName, '#bc9226', '95px', '105px')}
+                      <span style={{ fontSize: '11px', color: '#64748b', fontWeight: '600', display: 'block', marginTop: '4px' }}>அம்மா</span>
                     </div>
                   </div>
 
-                  <h4 style={{ margin: '4px 0 2px 0', color: '#1a2b4c', fontSize: '15px', fontWeight: '700' }}>{item.fatherName}</h4>
-                  <div style={{ fontSize: '11px', color: '#64748b', margin: '2px 0' }}>{item.relationType}</div>
-                  <h5 style={{ margin: '0 0 8px 0', color: '#5b21b6', fontSize: '14px', fontWeight: '600' }}>{item.motherName}</h5>
+                  <h4 style={{ margin: '4px 0 2px 0', color: '#1a2b4c', fontSize: '16px', fontWeight: '700' }}>{item.fatherName}</h4>
+                  <div style={{ fontSize: '12px', color: '#64748b', margin: '2px 0' }}>{item.relationType}</div>
+                  <h5 style={{ margin: '0 0 10px 0', color: '#5b21b6', fontSize: '15px', fontWeight: '600' }}>{item.motherName}</h5>
 
-                  <div style={{ borderTop: '1px solid #f1f5f9', paddingTop: '10px', marginTop: '10px' }}>
-                    <div style={{ fontSize: '10px', color: '#bc9226', fontWeight: '700', marginBottom: '6px', textAlign: 'left' }}>👶 பிள்ளைகள்:</div>
+                  <div style={{ borderTop: '1px solid #f1f5f9', paddingTop: '12px', marginTop: '10px' }}>
+                    <div style={{ fontSize: '11px', color: '#bc9226', fontWeight: '700', marginBottom: '6px', textAlign: 'left' }}>👶 பிள்ளைகள்:</div>
                     {item.children.map((child, idx) => (
                       <div key={idx} className="child-node">{child}</div>
                     ))}
                   </div>
 
-                  <div style={{ marginTop: '10px', fontSize: '11px', color: '#059669', fontWeight: '600' }}>
-                    🔍 Click for details
+                  <div style={{ marginTop: '14px', fontSize: '12px', color: '#1a2b4c', fontWeight: '700', backgroundColor: '#f1f5f9', padding: '8px 14px', borderRadius: '50px', border: '1px solid #cbd5e1', display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
+                    📖 Read Life Story
                   </div>
                 </div>
               </div>
             ))}
 
-            {/* Single Node */}
-            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', flex: '1 1 200px', minWidth: '220px' }}>
+            {/* Single Child Node */}
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', flex: '1 1 240px', minWidth: '250px' }}>
               <div className="tree-node" style={{ minHeight: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center', cursor: 'default' }}>
-                <span style={{ fontSize: '28px' }}>🙋‍♂️</span>
-                <h4 style={{ margin: '12px 0 4px 0', color: '#1a2b4c', fontSize: '16px', fontWeight: '700' }}>Ilakiyadhesan</h4>
-                <div style={{ fontSize: '12px', color: '#64748b', fontStyle: 'italic' }}>குடும்பத்தின் செல்லப் பிள்ளை ✨</div>
+                <span style={{ fontSize: '42px', marginBottom: '10px' }}>🙋‍♂️</span>
+                <h4 style={{ margin: '8px 0 4px 0', color: '#1a2b4c', fontSize: '18px', fontWeight: '700' }}>Ilakiyadhesan</h4>
+                <div style={{ fontSize: '13px', color: '#64748b', fontStyle: 'italic' }}>குடும்பத்தின் செல்லப் பிள்ளை ✨</div>
               </div>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Details Popup Modal */}
+      {/* 📖 📖 📖 LIFE STORYBOOK POPUP MODAL 📖 📖 📖 */}
       {selectedFamily && (
         <div style={{
           position: 'fixed', top: 0, left: 0, width: '100%', height: '100%',
-          backgroundColor: 'rgba(0, 0, 0, 0.65)', backdropFilter: 'blur(4px)',
+          backgroundColor: 'rgba(15, 23, 42, 0.75)', backdropFilter: 'blur(6px)',
           display: 'flex', justifyContent: 'center', alignItems: 'center',
           zIndex: 2000, padding: '20px', boxSizing: 'border-box'
         }}>
           <div style={{
-            backgroundColor: '#ffffff', borderRadius: '24px', padding: '30px',
-            width: '100%', maxWidth: '480px', position: 'relative',
-            boxShadow: '0 20px 40px rgba(0,0,0,0.3)', textAlign: 'center'
+            backgroundColor: '#ffffff', borderRadius: '24px', padding: '35px 28px',
+            width: '100%', maxWidth: '580px', maxHeight: '88vh', overflowY: 'auto',
+            position: 'relative', boxShadow: '0 25px 50px rgba(0,0,0,0.25)'
           }}>
+            {/* Close Button */}
             <button 
               onClick={() => setSelectedFamily(null)}
               style={{
                 position: 'absolute', top: '18px', right: '18px',
                 background: '#f1f5f9', border: 'none', borderRadius: '50%',
-                width: '36px', height: '36px', cursor: 'pointer',
+                width: '38px', height: '38px', cursor: 'pointer',
                 fontSize: '18px', fontWeight: 'bold', color: '#475569'
               }}
             >
               ✕
             </button>
 
-            <h3 style={{ margin: '0 0 20px 0', color: '#1a2b4c', fontSize: '22px' }}>
-              👨‍👩‍👧‍👦 குடும்ப விவரங்கள்
-            </h3>
+            <div style={{ textAlign: 'center', marginBottom: '20px' }}>
+              <span style={{ fontSize: '12px', fontWeight: '700', color: '#bc9226', textTransform: 'uppercase', letterSpacing: '1px' }}>
+                📖 குடும்ப வாழ்க்கைப் பயணம்
+              </span>
+              <h3 style={{ margin: '5px 0 0 0', color: '#1a2b4c', fontSize: '22px', fontWeight: '700' }}>
+                {selectedFamily.fatherName} & {selectedFamily.motherName}
+              </h3>
+            </div>
 
-            <div style={{ display: 'flex', justifyContent: 'center', gap: '25px', marginBottom: '20px' }}>
+            {/* Photos & Basic Info */}
+            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '20px', marginBottom: '25px', backgroundColor: '#fafaf9', padding: '16px', borderRadius: '20px', border: '1px solid #f5f5f4' }}>
               <div style={{ textAlign: 'center' }}>
-                {renderAvatar(selectedFamily.fatherPhoto, selectedFamily.fatherName, '#1a2b4c', '90px')}
-                <div style={{ fontWeight: '700', color: '#1a2b4c', marginTop: '6px', fontSize: '15px' }}>{selectedFamily.fatherName}</div>
+                {renderAvatar(selectedFamily.fatherPhoto, selectedFamily.fatherName, '#1a2b4c', '100px', '115px')}
+                <div style={{ fontWeight: '700', color: '#1a2b4c', marginTop: '6px', fontSize: '14px' }}>{selectedFamily.fatherName}</div>
               </div>
 
+              <div style={{ fontSize: '22px' }}>❤️</div>
+
               <div style={{ textAlign: 'center' }}>
-                {renderAvatar(selectedFamily.motherPhoto, selectedFamily.motherName, '#bc9226', '90px')}
-                <div style={{ fontWeight: '700', color: '#5b21b6', marginTop: '6px', fontSize: '15px' }}>{selectedFamily.motherName}</div>
+                {renderAvatar(selectedFamily.motherPhoto, selectedFamily.motherName, '#bc9226', '100px', '115px')}
+                <div style={{ fontWeight: '700', color: '#5b21b6', marginTop: '6px', fontSize: '14px' }}>{selectedFamily.motherName}</div>
               </div>
             </div>
 
-            {selectedFamily.description && (
-              <div style={{ backgroundColor: '#f8fafc', padding: '15px', borderRadius: '16px', marginBottom: '20px', border: '1px solid #e2e8f0' }}>
-                <p style={{ margin: 0, color: '#475569', fontSize: '14px', lineHeight: '1.6' }}>
-                  {selectedFamily.description}
-                </p>
+            {/* 📜 Life Story Chapters */}
+            {selectedFamily.lifeStory && (
+              <div>
+                <div className="story-section" style={{ borderLeftColor: '#1a2b4c' }}>
+                  <div className="story-title">🌱 ஆரம்ப காலம் & பயணம்:</div>
+                  <p className="story-text">{selectedFamily.lifeStory.beginning}</p>
+                </div>
+
+                <div className="story-section" style={{ borderLeftColor: '#bc9226' }}>
+                  <div className="story-title">🚀 திருப்புமுனை & உழைப்பு:</div>
+                  <p className="story-text">{selectedFamily.lifeStory.turningPoint}</p>
+                </div>
+
+                <div className="story-section" style={{ borderLeftColor: '#059669' }}>
+                  <div className="story-title">🏡 தற்போதைய நிறைவான வாழ்க்கை:</div>
+                  <p className="story-text">{selectedFamily.lifeStory.present}</p>
+                </div>
+
+                <div className="story-section" style={{ borderLeftColor: '#e11d48', backgroundColor: '#fff1f2' }}>
+                  <div className="story-title" style={{ color: '#9f1239' }}>✨ அழகான நினைவுகள் & சிறப்பு:</div>
+                  <p className="story-text" style={{ color: '#881337' }}>{selectedFamily.lifeStory.favoriteMemory}</p>
+                </div>
               </div>
             )}
 
-            <div style={{ textAlign: 'left' }}>
-              <div style={{ fontWeight: '700', color: '#1a2b4c', fontSize: '14px', marginBottom: '8px' }}>
-                👶 பிள்ளைகள்:
-              </div>
-              <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
-                {selectedFamily.children.map((child, idx) => (
-                  <span key={idx} style={{
-                    backgroundColor: '#f0fdf4', border: '1px solid #bbf7d0',
-                    color: '#166534', padding: '6px 14px', borderRadius: '50px',
-                    fontSize: '13px', fontWeight: '600'
-                  }}>
-                    {child}
-                  </span>
-                ))}
-              </div>
+            {/* Quick Details Footer */}
+            <div style={{ display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', gap: '10px', marginTop: '20px', paddingTop: '15px', borderTop: '1px solid #e2e8f0', fontSize: '12.5px', color: '#64748b' }}>
+              <span>💍 <strong>திருமணம்:</strong> {selectedFamily.weddingDate}</span>
+              <span>📍 <strong>ஊர்:</strong> {selectedFamily.location}</span>
             </div>
+
           </div>
         </div>
       )}

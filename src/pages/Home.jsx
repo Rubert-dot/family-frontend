@@ -12,7 +12,7 @@ export default function Home() {
   const [photos, setPhotos] = useState([]);
   const [memberCount, setMemberCount] = useState(0); 
   
-  // Events Modal Control (Important Dates கிளிக் செய்யும் போது திறக்க)
+
   const [showEventsModal, setShowEventsModal] = useState(false);
 
   const [time, setTime] = useState(new Date());
@@ -36,18 +36,16 @@ export default function Home() {
 
     const clockTimer = setInterval(() => setTime(new Date()), 1000);
 
-    // கேலண்டரில் சேமித்த Events-ஐ Fetch செய்தல்
     getUpcomingEvents()
       .then((data) => {
         if (Array.isArray(data)) {
-          // தேதியின் அடிப்படையில் வரிசைப்படுத்துதல்
+
           const sorted = [...data].sort((a, b) => new Date(a.event_date || a.eventDate) - new Date(b.event_date || b.eventDate));
           setAllEvents(sorted);
         }
       })
       .catch((err) => console.error("Events fetch failed:", err));
 
-    // Photos Fetch செய்தல்
     getPhotos()
       .then((data) => {
         if (Array.isArray(data)) {
@@ -56,7 +54,6 @@ export default function Home() {
       })
       .catch((err) => console.error("Photos fetch failed:", err));
 
-    // Members Count Fetch செய்தல்
     getFamilyMembers()
       .then((data) => {
         if (Array.isArray(data)) {
@@ -152,7 +149,7 @@ export default function Home() {
           </div>
 
           <Link to="/family-tree" className="primary-btn">
-            <span>🌳 Discover Our Family Tree</span>
+            <span>Discover Our Family Tree</span>
             <span style={{ fontSize: '18px' }}>→</span>
           </Link>
         </div>
@@ -220,10 +217,21 @@ export default function Home() {
           </p>
           <span style={{ fontSize: '13px', color: '#718096' }}>Click to view gallery</span>
         </div>
+        {/* Family Recipes Card */}
+<div className="feature-box" onClick={() => navigate('/recipes')} style={{ backgroundColor: '#ffffff', padding: '30px 25px', borderRadius: '24px', textAlign: 'center' }}>
+  <div style={{ width: '60px', height: '60px', backgroundColor: '#fef3c7', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 15px auto' }}>
+    <span style={{ fontSize: '28px' }}>🍲</span>
+  </div>
+  <h3 style={{ color: '#1a2b4c', margin: '0 0 10px 0', fontSize: '18px', fontWeight: '600' }}>Family Recipes</h3>
+  <p style={{ color: '#b45309', fontWeight: 'bold', fontSize: '15px', margin: '0 0 8px 0' }}>
+    பாரம்பரிய சமையல்
+  </p>
+  <span style={{ fontSize: '13px', color: '#718096' }}>வீட்டுச் சமையல் குறிப்புகள்</span>
+</div>
 
       </div>
 
-      {/* 🌟 SAVED EVENTS POPUP MODAL (IMPORTANT DATES CLICK PANNUM POTHU MATTUM VARUM) */}
+      
       {showEventsModal && (
         <div style={{
           position: 'fixed', top: 0, left: 0, width: '100%', height: '100%',

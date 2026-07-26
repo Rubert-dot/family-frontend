@@ -6,7 +6,7 @@ import Home from './pages/Home.jsx';
 import Photos from './pages/Photos.jsx';
 import Calendar from './pages/Calender.jsx';
 import FamilyTree from './components/FamilyTree';
-
+import Recipes from './pages/Recipes.jsx';
 export default function App() {
   const [unlocked, setUnlocked] = useState(
     !!localStorage.getItem('familyEmail') && !!localStorage.getItem('familyPassword')
@@ -31,6 +31,7 @@ export default function App() {
         <Route path="/calendar" element={<Calendar />} />
 
         <Route path="/family-tree" element={<FamilyTree />} />
+        <Route path="/recipes" element={<Recipes />} />
       </Routes>
     </div>
   );

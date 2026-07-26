@@ -2,29 +2,26 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import SavarirajImg from '../assets/Savariraj.jpg';
 import NagomiImg from '../assets/Nagomi.jpg';
-import PaulrajImg from'../assets/Paul.jpg';
+import PaulrajImg from '../assets/Paul.jpg';
 import SelviImg from '../assets/Selvi.jpg';
 import LouisImg from '../assets/Louis.jpg';
 import RosyImg from '../assets/Rosy.jpg';
-import RajarethinamImg from '../assets/Rajarenthinam.jpg';
+import RajarethinamImg from '../assets/Rajarethinam.jpg';
 import VimalImg from '../assets/Vimala.jpg';
 
 export default function FamilyTree() {
- 
   const [selectedFamily, setSelectedFamily] = useState(null);
 
-  
   const familyData = [
     {
       id: 1,
       fatherName: "SavariRaj",
       motherName: "Nagomi",
       relationType: "துணைவியார்",
-   
       fatherPhoto: SavarirajImg,
       motherPhoto: NagomiImg,
       children: ["👦 Robin Raj", "👦 Kevin Raj"],
-      description: ""
+      description: "அன்பும் பாசமும் நிறைந்த குடும்பம்."
     },
     {
       id: 2,
@@ -32,7 +29,7 @@ export default function FamilyTree() {
       motherName: "Loordhu Selvi",
       relationType: "கணவர்",
       fatherPhoto: PaulrajImg,
-      motherPhoto:  SelviImg,
+      motherPhoto: SelviImg,
       children: ["👦 Qubert Felix Raj", "👦 Rubert Rex"],
       description: "குடும்பத்தின் தூண்களில் ஒன்று."
     },
@@ -67,6 +64,36 @@ export default function FamilyTree() {
       description: "அன்பான இல்லம்."
     }
   ];
+
+  
+  const renderAvatar = (photoUrl, name, borderColor, size = '55px') => {
+    if (photoUrl) {
+      return (
+        <img 
+          src={photoUrl} 
+          alt={name} 
+          style={{ width: size, height: size, borderRadius: '50%', border: `2px solid ${borderColor}`, objectFit: 'cover' }} 
+        />
+      );
+    }
+    return (
+      <div style={{
+        width: size,
+        height: size,
+        borderRadius: '50%',
+        border: `2px solid ${borderColor}`,
+        backgroundColor: '#e2e8f0',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        fontSize: '20px',
+        color: '#64748b',
+        fontWeight: 'bold'
+      }}>
+        {name ? name.charAt(0) : '👤'}
+      </div>
+    );
+  };
 
   return (
     <div className="family-tree-container" style={{
@@ -142,14 +169,14 @@ export default function FamilyTree() {
         }
       `}</style>
 
-     
+      {/* Back Button */}
       <div style={{ width: '100%', maxWidth: '1200px', alignSelf: 'center' }}>
         <Link to="/" className="back-btn">
           <span>←</span> <span>Back to Home</span>
         </Link>
       </div>
 
-      
+      {/* Main Content */}
       <div style={{
         width: '100%',
         maxWidth: '1300px',
@@ -162,11 +189,11 @@ export default function FamilyTree() {
         border: '1px solid #e2e8f0'
       }}>
         <h2 style={{ color: '#1a2b4c', fontSize: '32px', margin: '0 0 10px 0', fontWeight: '700' }}>
-           நம் குடும்ப வம்சம் (Family Tree)
+          நம் குடும்ப வம்சம் (Family Tree)
         </h2>
         <div style={{ width: '60px', height: '4px', backgroundColor: '#bc9226', margin: '0 auto 20px auto', borderRadius: '2px' }}></div>
         <p style={{ color: '#64748b', fontSize: '15px', margin: '0 0 50px 0' }}>
-         புகைப்படங்கள் மற்றும் குடும்ப விவரங்களைக் காணவும்!
+          புகைப்படங்கள் மற்றும் குடும்ப விவரங்களைக் காணவும்!
         </p>
 
         <div style={{
@@ -175,8 +202,7 @@ export default function FamilyTree() {
           alignItems: 'center',
           gap: '40px'
         }}>
-          
-          
+          {/* Root Parents */}
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
             <div className="tree-node root-node" style={{ padding: '20px 35px' }}>
               <div style={{ fontSize: '20px', fontWeight: '700', letterSpacing: '0.5px' }}>
@@ -186,7 +212,7 @@ export default function FamilyTree() {
             <div style={{ width: '3px', height: '35px', backgroundColor: '#1a2b4c', opacity: 0.4 }}></div>
           </div>
 
-         
+          {/* Cards Grid */}
           <div style={{
             display: 'flex',
             justify: 'center',
@@ -195,24 +221,14 @@ export default function FamilyTree() {
             width: '100%',
             maxWidth: '1250px'
           }}>
-
-
             {familyData.map((item) => (
               <div key={item.id} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', flex: '1 1 200px', minWidth: '220px' }}>
                 <div className="tree-node" onClick={() => setSelectedFamily(item)}>
-                  
-                 
                   <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '12px' }}>
-                    <img 
-                      src={item.fatherPhoto} 
-                      alt={item.fatherName} 
-                      style={{ width: '55px', height: '55px', borderRadius: '50%', border: '2px solid #1a2b4c', objectFit: 'cover' }} 
-                    />
-                    <img 
-                      src={item.motherPhoto} 
-                      alt={item.motherName} 
-                      style={{ width: '55px', height: '55px', borderRadius: '50%', border: '2px solid #bc9226', marginLeft: '-12px', objectFit: 'cover' }} 
-                    />
+                    {renderAvatar(item.fatherPhoto, item.fatherName, '#1a2b4c')}
+                    <div style={{ marginLeft: '-12px' }}>
+                      {renderAvatar(item.motherPhoto, item.motherName, '#bc9226')}
+                    </div>
                   </div>
 
                   <h4 style={{ margin: '4px 0 2px 0', color: '#1a2b4c', fontSize: '15px', fontWeight: '700' }}>{item.fatherName}</h4>
@@ -233,7 +249,7 @@ export default function FamilyTree() {
               </div>
             ))}
 
-            {/* { Ilakiyadhesan */} 
+            {/* Single Node */}
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', flex: '1 1 200px', minWidth: '220px' }}>
               <div className="tree-node" style={{ minHeight: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center', cursor: 'default' }}>
                 <span style={{ fontSize: '28px' }}>🙋‍♂️</span>
@@ -241,12 +257,11 @@ export default function FamilyTree() {
                 <div style={{ fontSize: '12px', color: '#64748b', fontStyle: 'italic' }}>குடும்பத்தின் செல்லப் பிள்ளை ✨</div>
               </div>
             </div>
-
           </div>
         </div>
       </div>
 
-     
+      {/* Details Popup Modal */}
       {selectedFamily && (
         <div style={{
           position: 'fixed', top: 0, left: 0, width: '100%', height: '100%',
@@ -259,7 +274,6 @@ export default function FamilyTree() {
             width: '100%', maxWidth: '480px', position: 'relative',
             boxShadow: '0 20px 40px rgba(0,0,0,0.3)', textAlign: 'center'
           }}>
-          
             <button 
               onClick={() => setSelectedFamily(null)}
               style={{
@@ -276,35 +290,26 @@ export default function FamilyTree() {
               👨‍👩‍👧‍👦 குடும்ப விவரங்கள்
             </h3>
 
-           
             <div style={{ display: 'flex', justifyContent: 'center', gap: '25px', marginBottom: '20px' }}>
               <div style={{ textAlign: 'center' }}>
-                <img 
-                  src={selectedFamily.fatherPhoto} 
-                  alt={selectedFamily.fatherName} 
-                  style={{ width: '90px', height: '90px', borderRadius: '50%', border: '3px solid #1a2b4c', objectFit: 'cover' }} 
-                />
+                {renderAvatar(selectedFamily.fatherPhoto, selectedFamily.fatherName, '#1a2b4c', '90px')}
                 <div style={{ fontWeight: '700', color: '#1a2b4c', marginTop: '6px', fontSize: '15px' }}>{selectedFamily.fatherName}</div>
               </div>
 
               <div style={{ textAlign: 'center' }}>
-                <img 
-                  src={selectedFamily.motherPhoto} 
-                  alt={selectedFamily.motherName} 
-                  style={{ width: '90px', height: '90px', borderRadius: '50%', border: '3px solid #bc9226', objectFit: 'cover' }} 
-                />
+                {renderAvatar(selectedFamily.motherPhoto, selectedFamily.motherName, '#bc9226', '90px')}
                 <div style={{ fontWeight: '700', color: '#5b21b6', marginTop: '6px', fontSize: '15px' }}>{selectedFamily.motherName}</div>
               </div>
             </div>
 
-            {/* Description */}
-            <div style={{ backgroundColor: '#f8fafc', padding: '15px', borderRadius: '16px', marginBottom: '20px', border: '1px solid #e2e8f0' }}>
-              <p style={{ margin: 0, color: '#475569', fontSize: '14px', lineHeight: '1.6' }}>
-                {selectedFamily.description}
-              </p>
-            </div>
+            {selectedFamily.description && (
+              <div style={{ backgroundColor: '#f8fafc', padding: '15px', borderRadius: '16px', marginBottom: '20px', border: '1px solid #e2e8f0' }}>
+                <p style={{ margin: 0, color: '#475569', fontSize: '14px', lineHeight: '1.6' }}>
+                  {selectedFamily.description}
+                </p>
+              </div>
+            )}
 
-    
             <div style={{ textAlign: 'left' }}>
               <div style={{ fontWeight: '700', color: '#1a2b4c', fontSize: '14px', marginBottom: '8px' }}>
                 👶 பிள்ளைகள்:
@@ -321,11 +326,9 @@ export default function FamilyTree() {
                 ))}
               </div>
             </div>
-
           </div>
         </div>
       )}
-
     </div>
   );
 }

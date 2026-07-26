@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import SavarirajImg from '../assets/Savariraj.jpg';
-import NagomiImg from '../assets/Nagomo.jpg';
+import NagomiImg from '../assets/Nagomi.jpg';
 import PaulrajImg from'../assets/Paul.jpg';
 import SelviImg from '../assets/Selvi.jpg';
 import LouisImg from '../assets/Louis.jpg';

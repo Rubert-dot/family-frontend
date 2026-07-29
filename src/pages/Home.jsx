@@ -113,50 +113,53 @@ export default function Home() {
       overflowX: 'hidden'
     }}>
       <style>{`
-        html { scroll-behavior: smooth; }
-        .quote-fade { transition: opacity 0.8s ease-in-out; opacity: 0; }
-        .quote-visible { opacity: 1; }
-        .feature-box {
-          transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
-          border: 1px solid rgba(0,0,0,0.05);
-          cursor: pointer;
-        }
-        .feature-box:hover {
-          transform: translateY(-8px);
-          box-shadow: 0 20px 40px rgba(26, 43, 76, 0.12) !important;
-          border-color: #81b09a;
-        }
-        .primary-btn {
-          background: linear-gradient(135deg, #1a2b4c 0%, #2c426f 100%);
-          color: white; border: none; padding: 14px 28px;
-          border-radius: 50px; font-weight: 600; font-size: 15px;
-          cursor: pointer; transition: all 0.3s ease;
-          box-shadow: 0 4px 15px rgba(26, 43, 76, 0.2);
-          text-decoration: none; display: inline-flex;
-          align-items: center; gap: 8px;
-        }
-        .primary-btn:hover {
-          transform: translateY(-2px);
-          box-shadow: 0 8px 25px rgba(26, 43, 76, 0.35);
-        }
-        @keyframes slideInRight {
-          from { transform: translateX(120%); opacity: 0; }
-          to { transform: translateX(0); opacity: 1; }
-        }
-          @media (max-width: 768px) {
-  .hero-banner-bg {
-    
-    background-size: contain !important; 
-    background-repeat: no-repeat !important;
-    background-position: center top !important;
-    height: auto !important;
-    min-height: 75vh !important;
-    padding-top: 40px !important;
-    padding-bottom: 40px !important;
+  html { scroll-behavior: smooth; }
+  .quote-fade { transition: opacity 0.8s ease-in-out; opacity: 0; }
+  .quote-visible { opacity: 1; }
+  .feature-box {
+    transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+    border: 1px solid rgba(0,0,0,0.05);
+    cursor: pointer;
   }
-}
-      `}</style>
+  .feature-box:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 40px rgba(26, 43, 76, 0.12) !important;
+    border-color: #81b09a;
+  }
+  .primary-btn {
+    background: linear-gradient(135deg, #1a2b4c 0%, #2c426f 100%);
+    color: white; border: none; padding: 14px 28px;
+    border-radius: 50px; font-weight: 600; font-size: 15px;
+    cursor: pointer; transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(26, 43, 76, 0.2);
+    text-decoration: none; display: inline-flex;
+    align-items: center; gap: 8px;
+  }
+  .primary-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(26, 43, 76, 0.35);
+  }
+  @keyframes slideInRight {
+    from { transform: translateX(120%); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+  }
 
+ 
+  @media (max-width: 768px) {
+    .hero-banner-bg {
+      height: 55vh !important; 
+      min-height: 380px !important;
+      background-size: cover !important;
+      background-position: center center !important;
+      padding: 10px !important;
+    }
+
+    .hero-title {
+      font-size: 36px !important; 
+      margin-bottom: 12px !important;
+    }
+  }
+`}</style>
       {/* Hero Banner */}
      
 <div 
@@ -419,7 +422,7 @@ export default function Home() {
 
           {/* Copyright */}
           <div style={{ fontSize: '12px', color: '#718096', marginTop: '2px' }}>
-            © {new Date().getFullYear()} <strong>All Family Members</strong>
+            © {new Date().getFullYear()} <strong >Kudumba Uravugal. All rights recived</strong>
           </div>
         </div>
       </footer>

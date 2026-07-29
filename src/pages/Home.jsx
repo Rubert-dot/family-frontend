@@ -40,7 +40,7 @@ export default function Home() {
     getUpcomingEvents()
       .then((data) => {
         if (Array.isArray(data)) {
-          // தேதியின் அடிப்படையில் வரிசைப்படுத்துதல் (Ascending order)
+          console.log("Fetched Events:", data); // Check API Data
           const sorted = [...data].sort((a, b) => new Date(a.event_date || a.eventDate) - new Date(b.event_date || b.eventDate));
           setAllEvents(sorted);
         }
@@ -69,23 +69,30 @@ export default function Home() {
     };
   }, [familyQuotes.length]);
 
-  // --- AUTOMATIC NEXT UPCOMING EVENT CORNER POPUP WITH AUTO-CLOSE ---
+  // --- STRICT DATE MATCHING FOR CORNER POPUP ---
   useEffect(() => {
     if (allEvents.length > 0) {
-      const today = new Date();
-      today.setHours(0, 0, 0, 0);
+      const now = new Date();
+      // இன்றைய நள்ளிரவு நேரத்திற்கு மாற்றுதல் YYYY-MM-DD
+      const todayStr = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
 
-      // இன்று அல்லது அதற்குப் பிறகு வரும் முதல் நிகழ்வை மட்டும் எடுக்கும்
+      // எதிர்காலத்தில் அல்லது இன்று வரவிருக்கும் முதல் எவென்ட்டை மட்டும் எடுத்தல்
       const upcomingEvent = allEvents.find((evt) => {
-        const evtDate = new Date(evt.event_date || evt.eventDate);
-        evtDate.setHours(0, 0, 0, 0);
-        return evtDate >= today;
+        const rawDate = evt.event_date || evt.eventDate;
+        if (!rawDate) return false;
+        
+        const d = new Date(rawDate);
+        const eventStr = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+
+        return eventStr >= todayStr;
       });
+
+      console.log("Next Upcoming Event Found:", upcomingEvent);
 
       if (upcomingEvent) {
         setNextEventNotification(upcomingEvent);
 
-        // 5 வினாடிகளுக்குப் பிறகு (5000ms) தானாகவே பாப்-அப் மறைந்துவிடும்
+        // 5 வினாடிகளுக்குப் பிறகு (5000ms) தானாக மூடும்
         const autoCloseTimer = setTimeout(() => {
           setNextEventNotification(null);
         }, 5000);
@@ -203,7 +210,7 @@ export default function Home() {
         </p>
       </div>
 
-      {/* Feature Cards Section */}
+      {/* Cards Section */}
       <div style={{
         width: '100%', maxWidth: '940px', display: 'grid',
         gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
@@ -257,7 +264,7 @@ export default function Home() {
         </div>
       </div>
 
-      {/* All Events Modal */}
+      {/* Events Modal */}
       {showEventsModal && (
         <div style={{
           position: 'fixed', top: 0, left: 0, width: '100%', height: '100%',
@@ -316,7 +323,7 @@ export default function Home() {
         </div>
       )}
 
-      {/* --- SMALL CORNER NOTIFICATION TOAST (AUTOCLOSES IN 5 SECONDS) --- */}
+      {/* --- CORNER NOTIFICATION TOAST BOX --- */}
       {nextEventNotification && (
         <div style={{
           position: 'fixed', bottom: '25px', right: '25px',
@@ -330,7 +337,7 @@ export default function Home() {
           <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '6px' }}>
             <span style={{ fontSize: '20px' }}>🔔</span>
             <span style={{ fontSize: '12px', fontWeight: 'bold', color: '#bc9226', letterSpacing: '0.5px' }}>
-              அடுத்த சிறப்பு நிகழ்வு
+              Next Family Event
             </span>
           </div>
 

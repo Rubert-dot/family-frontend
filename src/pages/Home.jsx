@@ -12,10 +12,12 @@ export default function Home() {
   const [photos, setPhotos] = useState([]);
   const [memberCount, setMemberCount] = useState(0); 
   
-
   const [showEventsModal, setShowEventsModal] = useState(false);
-
   const [time, setTime] = useState(new Date());
+
+  // --- NEWLY ADDED STATE FOR NOTIFICATION POPUP ---
+  const [todayNotification, setTodayNotification] = useState(null);
+  // ------------------------------------------------
 
   const familyQuotes = [
     "Unity is our family's strength, love is our foundation! 🏡",
@@ -39,7 +41,6 @@ export default function Home() {
     getUpcomingEvents()
       .then((data) => {
         if (Array.isArray(data)) {
-
           const sorted = [...data].sort((a, b) => new Date(a.event_date || a.eventDate) - new Date(b.event_date || b.eventDate));
           setAllEvents(sorted);
         }
@@ -67,6 +68,36 @@ export default function Home() {
       clearInterval(clockTimer);
     };
   }, [familyQuotes.length]);
+
+  // --- NEWLY ADDED USEEFFECT FOR TODAY'S EVENT POPUP ---
+  useEffect(() => {
+    if (allEvents.length > 0) {
+      const today = new Date();
+      const todayMonth = today.getMonth();
+      const todayDate = today.getDate();
+      const todayFormatted = today.toISOString().split('T')[0];
+
+      // தேதியை வைத்து மேட்ச் ஆகிறதா எனப் பார்க்கிறோம் (வருடம் மாறினாலும் பிறந்தநாள்/கல்யாண நாள் வர வேண்டும் என்பதால் Month & Date மட்டும் செக் செய்கிறோம்)
+      const matchingEvent = allEvents.find((evt) => {
+        const eventDate = new Date(evt.event_date || evt.eventDate);
+        return eventDate.getDate() === todayDate && eventDate.getMonth() === todayMonth;
+      });
+
+      if (matchingEvent) {
+        const hasSeenToday = sessionStorage.getItem(`notified_${todayFormatted}`);
+        if (!hasSeenToday) {
+          setTodayNotification(matchingEvent);
+        }
+      }
+    }
+  }, [allEvents]);
+
+  const handleCloseNotification = () => {
+    const todayFormatted = new Date().toISOString().split('T')[0];
+    sessionStorage.setItem(`notified_${todayFormatted}`, 'true');
+    setTodayNotification(null);
+  };
+  // ------------------------------------------------------
 
   return (
     <div className="home-container" style={{ 
@@ -130,7 +161,6 @@ export default function Home() {
             fontSize: '56px', margin: '0 0 20px 0', letterSpacing: '1px', fontWeight: '700',
             background: 'linear-gradient(to right, #ffffff, #e2e8f0)',
             WebkitBackgroundClip: 'text',
-            //  WebkitTextFillColor: 'transparent'
           }}>
             குடும்ப உறவுகள்
           </h1>
@@ -181,7 +211,6 @@ export default function Home() {
         marginBottom: '60px'
       }}>
         
-        
         <div className="feature-box" onClick={() => setShowEventsModal(true)} style={{ backgroundColor: '#ffffff', padding: '30px 25px', borderRadius: '24px', textAlign: 'center' }}>
           <div style={{ width: '60px', height: '60px', backgroundColor: '#f0fff4', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 15px auto' }}>
             <span style={{ fontSize: '28px' }}>📅</span>
@@ -217,18 +246,18 @@ export default function Home() {
           </p>
           <span style={{ fontSize: '13px', color: '#718096' }}>Click to view gallery</span>
         </div>
-        {/* Family Recipes Card */}
-<div className="feature-box" onClick={() => navigate('/recipes')} style={{ backgroundColor: '#ffffff', padding: '30px 25px', borderRadius: '24px', textAlign: 'center' }}>
-  <div style={{ width: '60px', height: '60px', backgroundColor: '#fef3c7', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 15px auto' }}>
-    <span style={{ fontSize: '28px' }}>🍲</span>
-  </div>
-  <h3 style={{ color: '#1a2b4c', margin: '0 0 10px 0', fontSize: '18px', fontWeight: '600' }}>Family Recipes</h3>
-  <p style={{ color: '#b45309', fontWeight: 'bold', fontSize: '15px', margin: '0 0 8px 0' }}>
-    பாரம்பரிய சமையல்
-  </p>
-  <span style={{ fontSize: '13px', color: '#718096' }}>வீட்டுச் சமையல் குறிப்புகள்</span>
-</div>
 
+        {/* Family Recipes Card */}
+        <div className="feature-box" onClick={() => navigate('/recipes')} style={{ backgroundColor: '#ffffff', padding: '30px 25px', borderRadius: '24px', textAlign: 'center' }}>
+          <div style={{ width: '60px', height: '60px', backgroundColor: '#fef3c7', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 15px auto' }}>
+            <span style={{ fontSize: '28px' }}>🍲</span>
+          </div>
+          <h3 style={{ color: '#1a2b4c', margin: '0 0 10px 0', fontSize: '18px', fontWeight: '600' }}>Family Recipes</h3>
+          <p style={{ color: '#b45309', fontWeight: 'bold', fontSize: '15px', margin: '0 0 8px 0' }}>
+            பாரம்பரிய சமையல்
+          </p>
+          <span style={{ fontSize: '13px', color: '#718096' }}>வீட்டுச் சமையல் குறிப்புகள்</span>
+        </div>
       </div>
 
       
@@ -290,6 +319,75 @@ export default function Home() {
           </div>
         </div>
       )}
+
+      {/* --- NEWLY ADDED AUTOMATIC TODAY NOTIFICATION MODAL --- */}
+      {todayNotification && (
+        <div style={{
+          position: 'fixed', top: 0, left: 0, width: '100%', height: '100%',
+          backgroundColor: 'rgba(15, 23, 42, 0.8)', backdropFilter: 'blur(6px)',
+          display: 'flex', justifyContent: 'center', alignItems: 'center',
+          zIndex: 9999, padding: '20px', boxSizing: 'border-box'
+        }}>
+          <div style={{
+            backgroundColor: '#ffffff', borderRadius: '24px', padding: '35px 25px',
+            width: '100%', maxWidth: '420px', position: 'relative',
+            boxShadow: '0 25px 50px rgba(0,0,0,0.3)', textAlign: 'center',
+            border: '2px solid #bc9226', animation: 'popupBounce 0.4s ease'
+          }}>
+            <style>{`
+              @keyframes popupBounce {
+                0% { transform: scale(0.7); opacity: 0; }
+                100% { transform: scale(1); opacity: 1; }
+              }
+            `}</style>
+            
+            {/* Close Button */}
+            <button 
+              onClick={handleCloseNotification}
+              style={{
+                position: 'absolute', top: '15px', right: '15px',
+                background: '#f1f5f9', border: 'none', borderRadius: '50%',
+                width: '36px', height: '36px', cursor: 'pointer',
+                fontSize: '18px', fontWeight: 'bold', color: '#64748b'
+              }}
+            >
+              ✕
+            </button>
+
+            <div style={{ fontSize: '50px', marginBottom: '10px' }}>🔔🎉</div>
+            <span style={{ fontSize: '12px', fontWeight: 'bold', color: '#bc9226', textTransform: 'uppercase', letterSpacing: '1px' }}>
+              இன்றைய சிறப்பம்ச நற்செய்தி!
+            </span>
+
+            <h3 style={{ margin: '10px 0 15px 0', color: '#1a2b4c', fontSize: '22px', fontWeight: '700' }}>
+              {todayNotification.title}
+            </h3>
+
+            <div style={{ backgroundColor: '#f8fafc', padding: '15px', borderRadius: '14px', border: '1px solid #e2e8f0', marginBottom: '20px' }}>
+              <p style={{ margin: '0 0 6px 0', color: '#475569', fontSize: '14px', fontWeight: '600' }}>
+                📅 <strong>தேதி:</strong> {new Date(todayNotification.event_date || todayNotification.eventDate).toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' })}
+              </p>
+              {todayNotification.description && (
+                <p style={{ margin: 0, color: '#64748b', fontSize: '13.5px', lineHeight: '1.5' }}>
+                  💬 {todayNotification.description}
+                </p>
+              )}
+            </div>
+
+            <button 
+              onClick={handleCloseNotification}
+              style={{
+                backgroundColor: '#1a2b4c', color: '#ffffff', border: 'none',
+                padding: '12px 28px', borderRadius: '12px', cursor: 'pointer',
+                fontWeight: '600', fontSize: '15px', boxShadow: '0 4px 12px rgba(26,43,76,0.3)'
+              }}
+            >
+              வாழ்த்துகள்! ❤️
+            </button>
+          </div>
+        </div>
+      )}
+      {/* -------------------------------------------------------- */}
 
       {/* Footer */}
       <footer style={{

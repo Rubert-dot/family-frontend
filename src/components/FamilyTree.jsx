@@ -333,13 +333,13 @@ export default function FamilyTree() {
                     <div style={{ textAlign: 'center' }}>
                       {renderAvatar(item.fatherPhoto, item.fatherName, '#1a2b4c', '95px', '105px')}
                       <span style={{ fontSize: '11px', color: '#64748b', fontWeight: '600', display: 'block', marginTop: '4px' }}>
-                        {item.isSingle ? 'செல்லப் பிள்ளை' : 'அப்பா'}
+                        {item.isSingle ? 'செல்லப் பிள்ளை': ''}
                       </span>
                     </div>
                     {item.motherName && (
                       <div style={{ textAlign: 'center' }}>
                         {renderAvatar(item.motherPhoto, item.motherName, '#bc9226', '95px', '105px')}
-                        <span style={{ fontSize: '11px', color: '#64748b', fontWeight: '600', display: 'block', marginTop: '4px' }}>அம்மா</span>
+                        <span style={{ fontSize: '11px', color: '#64748b', fontWeight: '600', display: 'block', marginTop: '4px' }}></span>
                       </div>
                     )}
                   </div>

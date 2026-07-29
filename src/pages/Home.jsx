@@ -39,21 +39,34 @@ export default function Home() {
     getUpcomingEvents()
       .then((data) => {
         if (Array.isArray(data)) {
-          console.log("Fetched Events:", data); 
-          const sorted = [...data].sort((a, b) => new Date(a.event_date || a.eventDate) - new Date(b.event_date || b.eventDate));
+          console.log("Fetched All Events:", data); 
+
+          const now = new Date();
+    
+          const todayStr = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
+
+          
+          const futureEventsOnly = data.filter((evt) => {
+            const rawDate = evt.event_date || evt.eventDate;
+            if (!rawDate) return false;
+            
+            const d = new Date(rawDate);
+            const eventStr = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+
+           
+            return eventStr >= todayStr; 
+          });
+
+          
+          const sorted = futureEventsOnly.sort((a, b) => 
+            new Date(a.event_date || a.eventDate) - new Date(b.event_date || b.eventDate)
+          );
+
+          console.log("Upcoming Events Only (UI Filtered):", sorted);
           setAllEvents(sorted);
         }
       })
       .catch((err) => console.error("Events fetch failed:", err));
-
-    getPhotos()
-      .then((data) => {
-        if (Array.isArray(data)) {
-          setPhotos(data);
-        }
-      })
-      .catch((err) => console.error("Photos fetch failed:", err));
-
     getFamilyMembers()
       .then((data) => {
         if (Array.isArray(data)) {

@@ -68,7 +68,6 @@ export default function Home() {
     };
   }, [familyQuotes.length]);
 
-  
   useEffect(() => {
     if (allEvents.length > 0) {
       const now = new Date();
@@ -90,10 +89,9 @@ export default function Home() {
       if (upcomingEvent) {
         setNextEventNotification(upcomingEvent);
 
-      
         const autoCloseTimer = setTimeout(() => {
           setNextEventNotification(null);
-        }, 25000);
+        }, 22000);
 
         return () => clearTimeout(autoCloseTimer);
       }
@@ -109,7 +107,7 @@ export default function Home() {
       fontFamily: '"Poppins", "Segoe UI", sans-serif',
       position: 'relative',
       width: '100%',
-      paddingBottom: '120px', 
+      paddingBottom: '0px', 
       boxSizing: 'border-box',
       backgroundColor: '#f8fafc', 
       overflowX: 'hidden'
@@ -147,6 +145,7 @@ export default function Home() {
         }
       `}</style>
 
+      {/* Hero Banner */}
       <div style={{
         display: 'flex', justifyContent: 'center', alignItems: 'center',
         width: '100%', height: '90vh', position: 'relative',
@@ -154,25 +153,29 @@ export default function Home() {
         backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat',
         padding: '15px', boxSizing: 'border-box'
       }}>
+        
         <div className="hero-card" style={{
-          background: 'rgba(255, 255, 255, 0.08)',
-          border: '1px solid rgba(255, 255, 255, 0.2)',
-          color: '#fff', padding: '50px 20px', borderRadius: '32px',
-          boxShadow: '0 30px 60px rgba(0,0,0,0.4)', textAlign: 'center',
-          width: '100%', maxWidth: '500px', boxSizing: 'border-box',
+          color: '#fff', 
+          padding: '20px 10px', 
+          textAlign: 'center',
+          width: '100%', 
+          maxWidth: '650px', 
+          boxSizing: 'border-box',
         }}>
           <h1 className="hero-title" style={{ 
             fontSize: '56px', margin: '0 0 20px 0', letterSpacing: '1px', fontWeight: '700',
             background: 'linear-gradient(to right, #ffffff, #e2e8f0)',
             WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent', 
+            dropShadow: '0 4px 10px rgba(0,0,0,0.5)'
           }}>
             குடும்ப உறவுகள்
           </h1>
           
           <div style={{
             minHeight: '70px', display: 'flex', alignItems: 'center', justifyContent: 'center',
-            backgroundColor: 'rgba(0, 0, 0, 0.25)', padding: '15px 20px', borderRadius: '16px',
-            marginBottom: '30px', border: '1px solid rgba(255,255,255,0.05)'
+            backgroundColor: 'rgba(0, 0, 0, 0.35)', padding: '15px 20px', borderRadius: '16px',
+            marginBottom: '30px', border: '1px solid rgba(255,255,255,0.1)'
           }}>
             <p className={`quote-fade ${fade ? 'quote-visible' : ''}`} style={{
               margin: 0, fontSize: '16px', color: '#a8ebd0', fontWeight: '500',
@@ -203,7 +206,7 @@ export default function Home() {
         
         <p className="info-text" style={{ color: '#4a5568', fontSize: '17px', lineHeight: '1.9', margin: 0 }}>
           வேர்கள் வேறாக இருந்தாலும் விழுதுகள் ஒன்றுதான்!
-           தலைமுறை பல கடந்தும் குறையாத அன்போடும், மாறாத பாசத்தோடும் ஒரு தாய் பிள்ளைகளாய் வாழும் அழகியக் குடும்பம் நமது. நம் முன்னோர்கள் கற்றுத்தந்த அன்பையும் ஒற்றுமையையும் அடுத்த தலைமுறைக்குக் கொண்டு சேர்ப்பதே நம் வாழ்க்கைப் பயணம்!
+          தலைமுறை பல கடந்தும் குறையாத அன்போடும், மாறாத பாசத்தோடும் ஒரு தாய் பிள்ளைகளாய் வாழும் அழகியக் குடும்பம் நமது. நம் முன்னோர்கள் கற்றுத்தந்த அன்பையும் ஒற்றுமையையும் அடுத்த தலைமுறைக்குக் கொண்டு சேர்ப்பதே நம் வாழ்க்கைப் பயணம்!
         </p>
       </div>
 
@@ -355,20 +358,50 @@ export default function Home() {
 
       {/* Footer */}
       <footer style={{
-        width: '100%', backgroundColor: '#ffffff', borderTop: '1px solid #e2e8f0',
-        zIndex: 999, padding: '16px 24px', boxSizing: 'border-box', marginTop: 'auto'
+        width: '100%', 
+        backgroundColor: '#ffffff', 
+        borderTop: '1px solid #e2e8f0',
+        zIndex: 999, 
+        padding: '20px 16px', 
+        boxSizing: 'border-box', 
+        marginTop: 'auto'
       }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', maxWidth: '1200px', margin: '0 auto', gap: '15px' }}>
-          <div style={{ fontSize: '14.5px', color: '#1a2b4c', fontWeight: '600' }}>
-            <span>"Unity is our family's strength, love is our foundation!"</span>
+        <div style={{ 
+          display: 'flex', 
+          flexDirection: 'column',
+          alignItems: 'center', 
+          justifyContent: 'center',
+          maxWidth: '1200px', 
+          margin: '0 auto', 
+          gap: '12px',
+          textAlign: 'center'
+        }}>
+          {/* Quote */}
+          <div style={{ fontSize: '13.5px', color: '#1a2b4c', fontWeight: '600', lineHeight: '1.5' }}>
+            "Unity is our family's strength, love is our foundation!"
           </div>
-          <div style={{ fontSize: '13px', color: '#718096' }}>
-            © {new Date().getFullYear()} <strong>All Family Members</strong>
-          </div>
-          <div style={{ fontSize: '13.5px', color: '#ffffff', backgroundColor: '#c29292', padding: '6px 16px', borderRadius: '50px', fontWeight: '600', display: 'inline-flex', gap: '8px', alignItems: 'center' }}>
+
+          {/* Clock & Date Badge */}
+          <div style={{ 
+            fontSize: '13px', 
+            color: '#ffffff', 
+            backgroundColor: '#1a2b4c', 
+            padding: '6px 18px', 
+            borderRadius: '50px', 
+            fontWeight: '500', 
+            display: 'inline-flex', 
+            gap: '8px', 
+            alignItems: 'center',
+            boxShadow: '0 2px 8px rgba(0,0,0,0.08)'
+          }}>
             <span>🗓️ {time.toLocaleDateString('en-IN', { day: 'numeric', month: 'short' })}</span>
-            <span style={{ opacity: 0.5 }}>|</span>
+            <span style={{ opacity: 0.4 }}>|</span>
             <span>⏰ {time.toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit', second: '2-digit' })}</span>
+          </div>
+
+          {/* Copyright */}
+          <div style={{ fontSize: '12px', color: '#718096', marginTop: '2px' }}>
+            © {new Date().getFullYear()} <strong>All Family Members</strong>
           </div>
         </div>
       </footer>

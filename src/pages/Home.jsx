@@ -324,7 +324,7 @@ export default function Home() {
             </button>
 
             <h2 style={{ margin: '0 0 20px 0', color: '#1a2b4c', fontSize: '22px', display: 'flex', alignItems: 'center', gap: '10px' }}>
-              <span>📅</span> Saved Family Events
+              <span>📅</span> Up Coming Family Events
             </h2>
 
             {allEvents.length === 0 ? (

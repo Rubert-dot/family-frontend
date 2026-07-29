@@ -93,7 +93,7 @@ export default function Home() {
       
         const autoCloseTimer = setTimeout(() => {
           setNextEventNotification(null);
-        }, 50000);
+        }, 25000);
 
         return () => clearTimeout(autoCloseTimer);
       }

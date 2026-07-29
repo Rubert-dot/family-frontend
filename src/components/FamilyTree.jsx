@@ -301,7 +301,7 @@ export default function FamilyTree() {
         </h2>
         <div style={{ width: '60px', height: '4px', backgroundColor: '#bc9226', margin: '0 auto 20px auto', borderRadius: '2px' }}></div>
         <p style={{ color: '#64748b', fontSize: '15px', margin: '0 0 50px 0' }}>
-          புகைப்படங்கள் மற்றும் அவசியமான வாழ்க்கைக் கதைகளைக் காணக் கிளிக் செய்யவும்! 📖
+          புகைப்படங்கள் மற்றும் அவசியமான வாழ்க்கைக் கதை
         </p>
 
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '40px' }}>

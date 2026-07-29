@@ -15,9 +15,8 @@ export default function Home() {
   const [showEventsModal, setShowEventsModal] = useState(false);
   const [time, setTime] = useState(new Date());
 
-  // --- NEWLY ADDED STATE FOR NOTIFICATION POPUP ---
-  const [todayNotification, setTodayNotification] = useState(null);
-  // ------------------------------------------------
+  // --- POPUP NOTIFICATION STATE ---
+  const [nextEventNotification, setNextEventNotification] = useState(null);
 
   const familyQuotes = [
     "Unity is our family's strength, love is our foundation! 🏡",
@@ -41,6 +40,7 @@ export default function Home() {
     getUpcomingEvents()
       .then((data) => {
         if (Array.isArray(data)) {
+          // தேதியின் அடிப்படையில் வரிசைப்படுத்துதல் (Ascending order)
           const sorted = [...data].sort((a, b) => new Date(a.event_date || a.eventDate) - new Date(b.event_date || b.eventDate));
           setAllEvents(sorted);
         }
@@ -69,35 +69,39 @@ export default function Home() {
     };
   }, [familyQuotes.length]);
 
-  // --- NEWLY ADDED USEEFFECT FOR TODAY'S EVENT POPUP ---
+  // --- AUTOMATIC NEXT UPCOMING EVENT POPUP LOGIC ---
   useEffect(() => {
     if (allEvents.length > 0) {
       const today = new Date();
-      const todayMonth = today.getMonth();
-      const todayDate = today.getDate();
-      const todayFormatted = today.toISOString().split('T')[0];
+      today.setHours(0, 0, 0, 0); // இன்றைய ஆரம்ப நேரம்
 
-      // தேதியை வைத்து மேட்ச் ஆகிறதா எனப் பார்க்கிறோம் (வருடம் மாறினாலும் பிறந்தநாள்/கல்யாண நாள் வர வேண்டும் என்பதால் Month & Date மட்டும் செக் செய்கிறோம்)
-      const matchingEvent = allEvents.find((evt) => {
-        const eventDate = new Date(evt.event_date || evt.eventDate);
-        return eventDate.getDate() === todayDate && eventDate.getMonth() === todayMonth;
+      // இன்று அல்லது இதற்குப் பிறகு வரும் முதல் நிகழ்வை மட்டும் கண்டுபிடித்தல்
+      const upcomingEvent = allEvents.find((evt) => {
+        const evtDate = new Date(evt.event_date || evt.eventDate);
+        evtDate.setHours(0, 0, 0, 0);
+        return evtDate >= today; // கடந்த கால நிகழ்வுகளைத் தவிர்த்து எதிர்கால நிகழ்வை மட்டும் எடுக்கும்
       });
 
-      if (matchingEvent) {
-        const hasSeenToday = sessionStorage.getItem(`notified_${todayFormatted}`);
-        if (!hasSeenToday) {
-          setTodayNotification(matchingEvent);
+      if (upcomingEvent) {
+        const eventId = upcomingEvent.id || upcomingEvent._id || upcomingEvent.title;
+        const hasDismissed = sessionStorage.getItem(`dismissed_event_${eventId}`);
+
+        // இந்த நிகழ்வை பயனர் இன்னும் க்ளோஸ் செய்யவில்லை என்றால் Pop-up காட்டும்
+        if (!hasDismissed) {
+          setNextEventNotification(upcomingEvent);
         }
       }
     }
   }, [allEvents]);
 
   const handleCloseNotification = () => {
-    const todayFormatted = new Date().toISOString().split('T')[0];
-    sessionStorage.setItem(`notified_${todayFormatted}`, 'true');
-    setTodayNotification(null);
+    if (nextEventNotification) {
+      const eventId = nextEventNotification.id || nextEventNotification._id || nextEventNotification.title;
+      // இந்த குறிப்பிட்ட எவென்ட் பாப்-அப் மூடப்பட்டுவிட்டது என சேமிக்கும்
+      sessionStorage.setItem(`dismissed_event_${eventId}`, 'true');
+      setNextEventNotification(null);
+    }
   };
-  // ------------------------------------------------------
 
   return (
     <div className="home-container" style={{ 
@@ -203,7 +207,7 @@ export default function Home() {
         </p>
       </div>
 
-      {/* Cards Section */}
+      {/* Feature Cards Section */}
       <div style={{
         width: '100%', maxWidth: '940px', display: 'grid',
         gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
@@ -223,7 +227,6 @@ export default function Home() {
           <span style={{ fontSize: '13px', color: '#718096' }}>Click to view details</span>
         </div>
 
-        {/* 2. Family Directory Card */}
         <div className="feature-box" onClick={() => navigate('/family-tree')} style={{ backgroundColor: '#ffffff', padding: '30px 25px', borderRadius: '24px', textAlign: 'center' }}>
           <div style={{ width: '60px', height: '60px', backgroundColor: '#ebf8ff', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 15px auto' }}>
             <span style={{ fontSize: '28px' }}>👨‍👩‍👧‍👦</span>
@@ -235,7 +238,6 @@ export default function Home() {
           <span style={{ fontSize: '13px', color: '#718096' }}>View relationships & profiles</span>
         </div>
 
-        {/* 3. Sweet Memories Card */}
         <div className="feature-box" onClick={() => navigate('/memories')} style={{ backgroundColor: '#ffffff', padding: '30px 25px', borderRadius: '24px', textAlign: 'center' }}>
           <div style={{ width: '60px', height: '60px', backgroundColor: '#fffaf0', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 15px auto' }}>
             <span style={{ fontSize: '28px' }}>📸</span>
@@ -247,7 +249,6 @@ export default function Home() {
           <span style={{ fontSize: '13px', color: '#718096' }}>Click to view gallery</span>
         </div>
 
-        {/* Family Recipes Card */}
         <div className="feature-box" onClick={() => navigate('/recipes')} style={{ backgroundColor: '#ffffff', padding: '30px 25px', borderRadius: '24px', textAlign: 'center' }}>
           <div style={{ width: '60px', height: '60px', backgroundColor: '#fef3c7', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 15px auto' }}>
             <span style={{ fontSize: '28px' }}>🍲</span>
@@ -260,7 +261,7 @@ export default function Home() {
         </div>
       </div>
 
-      
+      {/* All Events List Modal */}
       {showEventsModal && (
         <div style={{
           position: 'fixed', top: 0, left: 0, width: '100%', height: '100%',
@@ -273,7 +274,6 @@ export default function Home() {
             width: '100%', maxWidth: '500px', maxHeight: '80vh', overflowY: 'auto',
             boxShadow: '0 25px 50px rgba(0,0,0,0.25)', position: 'relative'
           }}>
-            {/* Close Button */}
             <button 
               onClick={() => setShowEventsModal(false)}
               style={{
@@ -320,11 +320,11 @@ export default function Home() {
         </div>
       )}
 
-      {/* --- NEWLY ADDED AUTOMATIC TODAY NOTIFICATION MODAL --- */}
-      {todayNotification && (
+      {/* --- AUTOMATIC UPCOMING EVENT POPUP NOTIFICATION --- */}
+      {nextEventNotification && (
         <div style={{
           position: 'fixed', top: 0, left: 0, width: '100%', height: '100%',
-          backgroundColor: 'rgba(15, 23, 42, 0.8)', backdropFilter: 'blur(6px)',
+          backgroundColor: 'rgba(15, 23, 42, 0.75)', backdropFilter: 'blur(6px)',
           display: 'flex', justifyContent: 'center', alignItems: 'center',
           zIndex: 9999, padding: '20px', boxSizing: 'border-box'
         }}>
@@ -341,7 +341,6 @@ export default function Home() {
               }
             `}</style>
             
-            {/* Close Button */}
             <button 
               onClick={handleCloseNotification}
               style={{
@@ -356,20 +355,20 @@ export default function Home() {
 
             <div style={{ fontSize: '50px', marginBottom: '10px' }}>🔔🎉</div>
             <span style={{ fontSize: '12px', fontWeight: 'bold', color: '#bc9226', textTransform: 'uppercase', letterSpacing: '1px' }}>
-              இன்றைய சிறப்பம்ச நற்செய்தி!
+              அடுத்த சிறப்பு நிகழ்வு!
             </span>
 
             <h3 style={{ margin: '10px 0 15px 0', color: '#1a2b4c', fontSize: '22px', fontWeight: '700' }}>
-              {todayNotification.title}
+              {nextEventNotification.title}
             </h3>
 
             <div style={{ backgroundColor: '#f8fafc', padding: '15px', borderRadius: '14px', border: '1px solid #e2e8f0', marginBottom: '20px' }}>
               <p style={{ margin: '0 0 6px 0', color: '#475569', fontSize: '14px', fontWeight: '600' }}>
-                📅 <strong>தேதி:</strong> {new Date(todayNotification.event_date || todayNotification.eventDate).toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' })}
+                📅 <strong>தேதி:</strong> {new Date(nextEventNotification.event_date || nextEventNotification.eventDate).toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' })}
               </p>
-              {todayNotification.description && (
+              {nextEventNotification.description && (
                 <p style={{ margin: 0, color: '#64748b', fontSize: '13.5px', lineHeight: '1.5' }}>
-                  💬 {todayNotification.description}
+                  💬 {nextEventNotification.description}
                 </p>
               )}
             </div>
@@ -382,12 +381,11 @@ export default function Home() {
                 fontWeight: '600', fontSize: '15px', boxShadow: '0 4px 12px rgba(26,43,76,0.3)'
               }}
             >
-              வாழ்த்துகள்! ❤️
+              சரி, புரிந்தது! 👍
             </button>
           </div>
         </div>
       )}
-      {/* -------------------------------------------------------- */}
 
       {/* Footer */}
       <footer style={{

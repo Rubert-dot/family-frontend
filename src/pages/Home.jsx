@@ -69,39 +69,31 @@ export default function Home() {
     };
   }, [familyQuotes.length]);
 
-  // --- AUTOMATIC NEXT UPCOMING EVENT POPUP LOGIC ---
+  // --- AUTOMATIC NEXT UPCOMING EVENT CORNER POPUP WITH AUTO-CLOSE ---
   useEffect(() => {
     if (allEvents.length > 0) {
       const today = new Date();
-      today.setHours(0, 0, 0, 0); // இன்றைய ஆரம்ப நேரம்
+      today.setHours(0, 0, 0, 0);
 
-      // இன்று அல்லது இதற்குப் பிறகு வரும் முதல் நிகழ்வை மட்டும் கண்டுபிடித்தல்
+      // இன்று அல்லது அதற்குப் பிறகு வரும் முதல் நிகழ்வை மட்டும் எடுக்கும்
       const upcomingEvent = allEvents.find((evt) => {
         const evtDate = new Date(evt.event_date || evt.eventDate);
         evtDate.setHours(0, 0, 0, 0);
-        return evtDate >= today; // கடந்த கால நிகழ்வுகளைத் தவிர்த்து எதிர்கால நிகழ்வை மட்டும் எடுக்கும்
+        return evtDate >= today;
       });
 
       if (upcomingEvent) {
-        const eventId = upcomingEvent.id || upcomingEvent._id || upcomingEvent.title;
-        const hasDismissed = sessionStorage.getItem(`dismissed_event_${eventId}`);
+        setNextEventNotification(upcomingEvent);
 
-        // இந்த நிகழ்வை பயனர் இன்னும் க்ளோஸ் செய்யவில்லை என்றால் Pop-up காட்டும்
-        if (!hasDismissed) {
-          setNextEventNotification(upcomingEvent);
-        }
+        // 5 வினாடிகளுக்குப் பிறகு (5000ms) தானாகவே பாப்-அப் மறைந்துவிடும்
+        const autoCloseTimer = setTimeout(() => {
+          setNextEventNotification(null);
+        }, 5000);
+
+        return () => clearTimeout(autoCloseTimer);
       }
     }
   }, [allEvents]);
-
-  const handleCloseNotification = () => {
-    if (nextEventNotification) {
-      const eventId = nextEventNotification.id || nextEventNotification._id || nextEventNotification.title;
-      // இந்த குறிப்பிட்ட எவென்ட் பாப்-அப் மூடப்பட்டுவிட்டது என சேமிக்கும்
-      sessionStorage.setItem(`dismissed_event_${eventId}`, 'true');
-      setNextEventNotification(null);
-    }
-  };
 
   return (
     <div className="home-container" style={{ 
@@ -143,6 +135,10 @@ export default function Home() {
         .primary-btn:hover {
           transform: translateY(-2px);
           box-shadow: 0 8px 25px rgba(26, 43, 76, 0.35);
+        }
+        @keyframes slideInRight {
+          from { transform: translateX(120%); opacity: 0; }
+          to { transform: translateX(0); opacity: 1; }
         }
       `}</style>
 
@@ -261,7 +257,7 @@ export default function Home() {
         </div>
       </div>
 
-      {/* All Events List Modal */}
+      {/* All Events Modal */}
       {showEventsModal && (
         <div style={{
           position: 'fixed', top: 0, left: 0, width: '100%', height: '100%',
@@ -320,70 +316,37 @@ export default function Home() {
         </div>
       )}
 
-      {/* --- AUTOMATIC UPCOMING EVENT POPUP NOTIFICATION --- */}
+      {/* --- SMALL CORNER NOTIFICATION TOAST (AUTOCLOSES IN 5 SECONDS) --- */}
       {nextEventNotification && (
         <div style={{
-          position: 'fixed', top: 0, left: 0, width: '100%', height: '100%',
-          backgroundColor: 'rgba(15, 23, 42, 0.75)', backdropFilter: 'blur(6px)',
-          display: 'flex', justifyContent: 'center', alignItems: 'center',
-          zIndex: 9999, padding: '20px', boxSizing: 'border-box'
+          position: 'fixed', bottom: '25px', right: '25px',
+          backgroundColor: '#ffffff', borderRadius: '16px', padding: '16px 20px',
+          width: '320px', zIndex: 9999,
+          boxShadow: '0 10px 30px rgba(26, 43, 76, 0.25)',
+          borderLeft: '5px solid #bc9226',
+          border: '1px solid #e2e8f0', borderLeftWidth: '5px',
+          animation: 'slideInRight 0.5s ease-out'
         }}>
-          <div style={{
-            backgroundColor: '#ffffff', borderRadius: '24px', padding: '35px 25px',
-            width: '100%', maxWidth: '420px', position: 'relative',
-            boxShadow: '0 25px 50px rgba(0,0,0,0.3)', textAlign: 'center',
-            border: '2px solid #bc9226', animation: 'popupBounce 0.4s ease'
-          }}>
-            <style>{`
-              @keyframes popupBounce {
-                0% { transform: scale(0.7); opacity: 0; }
-                100% { transform: scale(1); opacity: 1; }
-              }
-            `}</style>
-            
-            <button 
-              onClick={handleCloseNotification}
-              style={{
-                position: 'absolute', top: '15px', right: '15px',
-                background: '#f1f5f9', border: 'none', borderRadius: '50%',
-                width: '36px', height: '36px', cursor: 'pointer',
-                fontSize: '18px', fontWeight: 'bold', color: '#64748b'
-              }}
-            >
-              ✕
-            </button>
-
-            <div style={{ fontSize: '50px', marginBottom: '10px' }}>🔔🎉</div>
-            <span style={{ fontSize: '12px', fontWeight: 'bold', color: '#bc9226', textTransform: 'uppercase', letterSpacing: '1px' }}>
-              அடுத்த சிறப்பு நிகழ்வு!
+          <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '6px' }}>
+            <span style={{ fontSize: '20px' }}>🔔</span>
+            <span style={{ fontSize: '12px', fontWeight: 'bold', color: '#bc9226', letterSpacing: '0.5px' }}>
+              அடுத்த சிறப்பு நிகழ்வு
             </span>
-
-            <h3 style={{ margin: '10px 0 15px 0', color: '#1a2b4c', fontSize: '22px', fontWeight: '700' }}>
-              {nextEventNotification.title}
-            </h3>
-
-            <div style={{ backgroundColor: '#f8fafc', padding: '15px', borderRadius: '14px', border: '1px solid #e2e8f0', marginBottom: '20px' }}>
-              <p style={{ margin: '0 0 6px 0', color: '#475569', fontSize: '14px', fontWeight: '600' }}>
-                📅 <strong>தேதி:</strong> {new Date(nextEventNotification.event_date || nextEventNotification.eventDate).toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' })}
-              </p>
-              {nextEventNotification.description && (
-                <p style={{ margin: 0, color: '#64748b', fontSize: '13.5px', lineHeight: '1.5' }}>
-                  💬 {nextEventNotification.description}
-                </p>
-              )}
-            </div>
-
-            <button 
-              onClick={handleCloseNotification}
-              style={{
-                backgroundColor: '#1a2b4c', color: '#ffffff', border: 'none',
-                padding: '12px 28px', borderRadius: '12px', cursor: 'pointer',
-                fontWeight: '600', fontSize: '15px', boxShadow: '0 4px 12px rgba(26,43,76,0.3)'
-              }}
-            >
-              சரி, புரிந்தது! 👍
-            </button>
           </div>
+
+          <h4 style={{ margin: '0 0 6px 0', color: '#1a2b4c', fontSize: '16px', fontWeight: '700' }}>
+            {nextEventNotification.title}
+          </h4>
+
+          <div style={{ fontSize: '13px', color: '#059669', fontWeight: '600' }}>
+            📅 {new Date(nextEventNotification.event_date || nextEventNotification.eventDate).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}
+          </div>
+
+          {nextEventNotification.description && (
+            <p style={{ margin: '4px 0 0 0', color: '#64748b', fontSize: '12px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+              💬 {nextEventNotification.description}
+            </p>
+          )}
         </div>
       )}
 

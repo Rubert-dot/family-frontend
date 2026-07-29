@@ -143,16 +143,34 @@ export default function Home() {
           from { transform: translateX(120%); opacity: 0; }
           to { transform: translateX(0); opacity: 1; }
         }
+          @media (max-width: 768px) {
+  .hero-banner-bg {
+    
+    background-size: contain !important; 
+    background-repeat: no-repeat !important;
+    background-position: center top !important;
+    height: auto !important;
+    min-height: 75vh !important;
+    padding-top: 40px !important;
+    padding-bottom: 40px !important;
+  }
+}
       `}</style>
 
       {/* Hero Banner */}
-      <div style={{
-        display: 'flex', justifyContent: 'center', alignItems: 'center',
-        width: '100%', height: '90vh', position: 'relative',
-        backgroundImage: `linear-gradient(rgba(15, 23, 42, 0.65), rgba(15, 23, 42, 0.8)), url(${myFamilyBg})`,
-        backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat',
-        padding: '15px', boxSizing: 'border-box'
-      }}>
+     
+<div 
+  className="hero-banner-bg"  
+  style={{
+    display: 'flex', justifyContent: 'center', alignItems: 'center',
+    width: '100%', height: '90vh', position: 'relative',
+    backgroundImage: `linear-gradient(rgba(15, 23, 42, 0.65), rgba(15, 23, 42, 0.8)), url(${myFamilyBg})`,
+    backgroundSize: 'cover', 
+    backgroundPosition: 'center', 
+    backgroundRepeat: 'no-repeat',
+    padding: '15px', boxSizing: 'border-box'
+  }}
+>
         
         <div className="hero-card" style={{
           color: '#fff', 

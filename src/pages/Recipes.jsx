@@ -1,7 +1,7 @@
 import React from 'react';
 
 export default function Recipes() {
-  // 📌 நீங்கள் கொடுத்த குடும்பத்தின் சிறப்புச் சமையல் குறிப்புகள்!
+ 
   const defaultRecipes = [
     {
       id: 1,
@@ -12,7 +12,7 @@ export default function Recipes() {
     },
     {
       id: 2,
-      title: "நகோமி அத்தையின் சிறப்பு பிரியாணி",
+      title: "அத்தையின் சிறப்பு பிரியாணி",
       chef: "நகோமி அத்தை",
       ingredients: "சீரகச் சம்பா / பாஸ்மதி அரிசி, கறி (சிக்கன்/மட்டன்), தயிர், புதினா, கொத்தமல்லி, பிரியாணி மசாலா, நெய்",
       instructions: "அளவான காரத்துடன், நெய் மணக்க மணக்கத் தம் போட்டுச் செய்யப்படும் சுவையான அத்தை வீட்டு பிரியாணி."
@@ -44,7 +44,7 @@ export default function Recipes() {
       {/* Header Section */}
       <div style={{ textAlign: 'center', marginBottom: '40px' }}>
         <h1 style={{ color: '#1a2b4c', fontSize: '32px', margin: '0 0 10px 0', fontWeight: '700' }}>
-          🍲 குடும்ப பாரம்பரிய சமையல்
+           குடும்ப பாரம்பரிய சமையல்
         </h1>
         <p style={{ color: '#64748b', fontSize: '16px', margin: 0 }}>
           தலைமுறை தலைமுறையாகத் தொடரும் நமது குடும்பத்து கைபக்குவச் சமையல் குறிப்புகள்

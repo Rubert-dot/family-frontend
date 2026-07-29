@@ -15,15 +15,14 @@ export default function Home() {
   const [showEventsModal, setShowEventsModal] = useState(false);
   const [time, setTime] = useState(new Date());
 
-  // --- POPUP NOTIFICATION STATE ---
   const [nextEventNotification, setNextEventNotification] = useState(null);
 
   const familyQuotes = [
-    "Unity is our family's strength, love is our foundation! 🏡",
-    "Living with adjustment is the ultimate beauty of a joint family! ✨",
-    "Having love to share and relatives to support us is a true blessing! ❤️",
-    "The most beautiful place in the world is under our family's umbrella of love! 🌟",
-    "Family is where anger fades away and only pure affection remains forever! 🤝"
+    "Unity is our family's strength, love is our foundation! ",
+    "Living with adjustment is the ultimate beauty of a joint family! ",
+    "Having love to share and relatives to support us is a true blessing! ",
+    "The most beautiful place in the world is under our family's umbrella of love! ",
+    "Family is where anger fades away and only pure affection remains forever! "
   ];
 
   useEffect(() => {
@@ -40,7 +39,7 @@ export default function Home() {
     getUpcomingEvents()
       .then((data) => {
         if (Array.isArray(data)) {
-          console.log("Fetched Events:", data); // Check API Data
+          console.log("Fetched Events:", data); 
           const sorted = [...data].sort((a, b) => new Date(a.event_date || a.eventDate) - new Date(b.event_date || b.eventDate));
           setAllEvents(sorted);
         }
@@ -69,14 +68,13 @@ export default function Home() {
     };
   }, [familyQuotes.length]);
 
-  // --- STRICT DATE MATCHING FOR CORNER POPUP ---
+  
   useEffect(() => {
     if (allEvents.length > 0) {
       const now = new Date();
-      // இன்றைய நள்ளிரவு நேரத்திற்கு மாற்றுதல் YYYY-MM-DD
+    
       const todayStr = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
 
-      // எதிர்காலத்தில் அல்லது இன்று வரவிருக்கும் முதல் எவென்ட்டை மட்டும் எடுத்தல்
       const upcomingEvent = allEvents.find((evt) => {
         const rawDate = evt.event_date || evt.eventDate;
         if (!rawDate) return false;
@@ -92,10 +90,10 @@ export default function Home() {
       if (upcomingEvent) {
         setNextEventNotification(upcomingEvent);
 
-        // 5 வினாடிகளுக்குப் பிறகு (5000ms) தானாக மூடும்
+      
         const autoCloseTimer = setTimeout(() => {
           setNextEventNotification(null);
-        }, 5000);
+        }, 50000);
 
         return () => clearTimeout(autoCloseTimer);
       }
@@ -149,7 +147,6 @@ export default function Home() {
         }
       `}</style>
 
-      {/* Hero Banner */}
       <div style={{
         display: 'flex', justifyContent: 'center', alignItems: 'center',
         width: '100%', height: '90vh', position: 'relative',
@@ -200,13 +197,13 @@ export default function Home() {
         textAlign: 'center', border: '1px solid #edf2f7'
       }}>
         <h2 className="info-title" style={{ color: '#1a2b4c', fontSize: '34px', margin: '0 0 20px 0', fontWeight: '700' }}>
-          🌳 நம் பாரம்பரியம்
+           நம் பாரம்பரியம்
         </h2>
         <div style={{ width: '60px', height: '4px', backgroundColor: '#bc9226', margin: '0 auto 25px auto', borderRadius: '2px' }}></div>
         
         <p className="info-text" style={{ color: '#4a5568', fontSize: '17px', lineHeight: '1.9', margin: 0 }}>
-          Endless love across generations and the immense affection we share with each other form the very foundation of our family. 
-          Standing shoulder to shoulder through joy and sorrow, following the path shown by our ancestors with unity is our pride.
+          வேர்கள் வேறாக இருந்தாலும் விழுதுகள் ஒன்றுதான்!
+           தலைமுறை பல கடந்தும் குறையாத அன்போடும், மாறாத பாசத்தோடும் ஒரு தாய் பிள்ளைகளாய் வாழும் அழகியக் குடும்பம் நமது. நம் முன்னோர்கள் கற்றுத்தந்த அன்பையும் ஒற்றுமையையும் அடுத்த தலைமுறைக்குக் கொண்டு சேர்ப்பதே நம் வாழ்க்கைப் பயணம்!
         </p>
       </div>
 
@@ -323,7 +320,6 @@ export default function Home() {
         </div>
       )}
 
-      {/* --- CORNER NOTIFICATION TOAST BOX --- */}
       {nextEventNotification && (
         <div style={{
           position: 'fixed', bottom: '25px', right: '25px',

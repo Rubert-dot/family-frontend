@@ -272,7 +272,7 @@ export default function Photos({ mode }) {
                 const uName = p.uploaderName || p.uploader_name || 'Unknown';
                 const upAt = p.uploadedAt || p.uploaded_at;
                 
-                // ✅ Fix: Uses Cloudinary URL directly from DB, falls back to photoUrl if needed
+             
                 const finalSrc = p.imagePath || p.image_path || photoUrl(fName);
 
                 let formattedDate = 'No Date';
